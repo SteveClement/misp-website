@@ -673,21 +673,21 @@ The taxonomies can be [browsed via the web site](/taxonomies.html) or downloaded
 - [eCSIRT](https://github.com/MISP/misp-taxonomies/tree/master/ecsirt) and IntelMQ incident classification
 - [ENISA](https://github.com/MISP/misp-taxonomies/tree/master/enisa) ENISA Threat Taxonomy
 - [Estimative Language](https://github.com/MISP/misp-taxonomies/tree/master/estimative-language) Estimative Language (ICD 203)
-- [EU critical sectors](https://github.com/MISP/misp-taxonomies/tree/master/eu-critical-sectors) - EU critical sectors
+- [EU critical sectors](https://github.com/MISP/misp-taxonomies/tree/master/eu-marketop-and-publicadmin) - EU critical sectors
 - [EUCI](https://github.com/MISP/misp-taxonomies/tree/master/euci) - EU classified information marking
 - [Europol Incident](https://github.com/MISP/misp-taxonomies/tree/master/europol-incident) - Europol class of incident taxonomy
-- [Europol Events](https://github.com/MISP/misp-taxonomies/tree/master/europol-events) - Europol type of events taxonomy
+- [Europol Events](https://github.com/MISP/misp-taxonomies/tree/master/europol-event) - Europol type of events taxonomy
 - [FIRST CSIRT Case](https://github.com/MISP/misp-taxonomies/tree/master/csirt_case_classification) classification
 - [FIRST Information Exchange Policy (IEP)](https://github.com/MISP/misp-taxonomies/tree/master/iep) framework
 - [Information Security Indicators](https://github.com/MISP/misp-taxonomies/tree/master/information-security-indicators) -  ETSI GS ISI 001-1 (V1.1.2): ISI Indicators
 - [Information Security Marking Metadata](https://github.com/MISP/misp-taxonomies/tree/master/dni-ism) from DNI (Director of National Intelligence - US)
-- [Malware](https://github.com/MISP/misp-taxonomies/tree/master/malware) classification based on a SANS document
+- [Malware](https://github.com/MISP/misp-taxonomies/tree/master/malware_classification) classification based on a SANS document
 - [ms-caro-malware](https://github.com/MISP/misp-taxonomies/tree/master/ms-caro-malware) Malware Type and Platform classification based on Microsoft's implementation of the Computer Antivirus Research Organiza
 tion (CARO) Naming Scheme and Malware Terminology.
 - [NATO Classification Marking](https://github.com/MISP/misp-taxonomies/tree/master/nato)
-- [Open Threat Taxonomy v1.1 (SANS)](https://github.com/MISP/misp-taxonomies/tree/master/open-threat)
+- [Open Threat Taxonomy v1.1 (SANS)](https://github.com/MISP/misp-taxonomies/tree/master/open_threat)
 - [OSINT Open Source Intelligence - Classification](https://github.com/MISP/misp-taxonomies/tree/master/osint)
-- [The Permissible Actions Protocol - or short: PAP - was designed to indicate how the received information can be used.](https://github.com/MISP/misp-taxonomies/tree/master/pap)
+- [The Permissible Actions Protocol - or short: PAP - was designed to indicate how the received information can be used.](https://github.com/MISP/misp-taxonomies/tree/master/PAP)
 - [TLP - Traffic Light Protocol](https://github.com/MISP/misp-taxonomies/tree/master/tlp)
 - Vocabulary for Event Recording and Incident Sharing [VERIS](https://github.com/MISP/misp-taxonomies/tree/master/veris)
 
