@@ -11,13 +11,15 @@ toc: true
 
 [ChangeLog](/Changelog.txt) contains a detailed list of updates for each software release in the core of the MISP software.
 
+MISP Install guides (stock install instructions for getting a base MISP system running) are available at [https://misp.github.io/MISP/](https://misp.github.io/MISP/).
+
 ### Requirements
 
 MISP can be easily installed on any standard GNU/Linux distribution. Installation guides for various distributions are included in the [INSTALL directory](https://github.com/MISP/MISP/tree/2.4/INSTALL). If you did a git clone of MISP for the installation, an [UPDATE procedure is available](https://github.com/MISP/MISP/blob/2.4/INSTALL/UPDATE.txt) to keep your MISP up-to-date.
 
 ### Virtual images
 
-If you would like to test MISP and don't want to do an installation, CIRCL generates automatically VMware images and VirtualBox at each MISP core commit. Available at the [following location](https://www.circl.lu/misp-images/latest/). The image can be used for production but we highly recommend to change the default credentials and salt pre-configured with such images.
+If you would like to test MISP and don't want to do an installation, CIRCL generates automatically VMware images and VirtualBox at each MISP core commit. Available at the [following location](https://www.circl.lu/misp-images/latest/). The image is to be used for testing purposes only, production-use is considered to be dangerous as is, it contains much more than MISP alone but also misp-dashboard and viper which requires additional security review before being in production.
 
 The default credentials for the automatically generated virtual machines are the following:
 
@@ -37,8 +39,8 @@ VBoxManage controlvm MISP_VM_NAME natpf1 dashboard,tcp,,8001,,8001
 
 ### Docker containers
 
-- A [docker container for MISP](https://github.com/MISP/misp-docker) is maintained by Xavier Mertens.
-- Another [MISP docker container](https://github.com/MISP/docker-misp) is maintained by Ventz Petkov.
+- A [docker container for MISP](https://github.com/misp/misp-docker) is maintained by Xavier Mertens.
+- Another [MISP docker container](https://github.com/misp/docker-misp) is maintained by Ventz Petkov.
 
 We invite you to read the GitHub README page of each version to understand what better fits your needs.
 
@@ -50,8 +52,21 @@ We invite you to read the GitHub README page of each version to understand what 
 
 - [MISP ansible](https://github.com/juju4/ansible-MISP) An ansible role to setup a MISP instance.
 
+
+### AutoMISP
+
+- [AutoMISP is shell script](https://github.com/da667/AutoMISP) to automatically install MISP and misp-modules together on Ubuntu 16.04 or 18.04.
+
+### misp-cloud - Cloud-ready images of MISP
+
+- [misp-cloud](https://github.com/MISP/misp-cloud) - The objective of this project is to deliver cloud-ready images of MISP for testing purposes. AWS is currently supported.
+
+### RPM
+
+- [MISP-RPM](https://github.com/amuehlem/MISP-RPM) - RPM Packages for MISP.
+
 ## License
 
 The MISP software is an open source and free software released under the [AGPL](https://github.com/MISP/MISP/blob/2.4/LICENSE) (Affero General Public License). We are committed to ensure that MISP will remain a free and open source project on the long-run.
 
-The MISP taxonomies are licensed under [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) (CC0 1.0) - Public Domain Dedication. This allows interoperability with any product. (open source or proprietary) 
+The MISP [taxonomies](/taxonomies.html) and [galaxy](/galaxy.html) are licensed under [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) (CC0 1.0) - Public Domain Dedication or 2-clause BSD open source license. This allows interoperability with any product. (open source or proprietary)
