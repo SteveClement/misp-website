@@ -84,19 +84,26 @@ For the additional software created by the MISP project, check our [MISP project
 * [Cuckoo modified](https://github.com/spender-sandbox/cuckoo-modified) - heavily modified version of Cuckoo Sandbox including a [MISP reporting module](https://github.com/spender-sandbox/cuckoo-modified/blob/master/modules/reporting/misp.py) to put the information into a MISP instance.
 * [cve-search](https://github.com/cve-search) - a tool to perform local searches for known vulnerabilities include a [MISP plug-in](https://github.com/cve-search/Plugins/tree/master/plugins/plugins/MISP).
 * [DCSO TIE integration](https://github.com/DCSO/tie2misp) - DCSO integration with MISP.
+* [Dovehawk Bro Module](https://github.com/tylabs/dovehawk) - Bro+MISP for threat hunting.
+* [EclecticIQ Platform Integrations](https://www.eclecticiq.com/platform/integrations) - Intelligence Integration.
+* [Elastic.co - a filebeat module for reading threat intel information from the MISP platform](https://www.elastic.co/guide/en/beats/filebeat/master/filebeat-module-misp.html)
 * [FireMISP](https://github.com/deralexxx/FireMISP) FireEye Alert json files to MISP Malware information sharing platform (Alpha).
 * [Hybrid analysis](https://www.hybrid-analysis.com/) exports in MISP format.
 * [IntelMQ](https://github.com/certtools/intelmq) support MISP to retrieve events and update tags.
-* [iSight MISP integration](https://github.com/deralexxx/PySight2MISP) - iSighht integration with MISP.
+* [iSight MISP integration](https://github.com/deralexxx/PySight2MISP) - iSight integration with MISP.
+* [ja3toMISP](https://github.com/eCrimeLabs/ja3toMISP) Extracts JA3 fingerprints from a PCAP and adds them to an event in MISP as objects.
 * [Joe Sanbox](https://www.joesecurity.org/) outputs analysis in MISP format.
+* [Kaspersky Threat Data Feeds](https://support.kaspersky.com/14787) - Kaspersky Threat Feed App for MISP is an application set that allows you to import and update Kaspersky Threat Data Feeds in a MISP instance. [documentation](https://products.s.kaspersky-labs.com/special/ktfamisp/1.0/english-1/4a7dc6c6/Kaspersky%20Threat%20Feed%20App%20for%20MISP.pdf)
 * [Komand](https://market.komand.com/plugins/komand/misp/0.1.0) - Komand integration with MISP.
 * [Loki - Simple IOC Scanner](https://github.com/Neo23x0/Loki) includes a MISP receiver.
 * [McAfee Active Response](https://github.com/mohlcyber/MISP-MAR) - McAfee Active Response integration with MISP.
 * [MISP-Extractor](https://github.com/PidgeyL/MISP-Extractor) extracts information from MISP via the API and automate some tasks.
 * [misp-to-autofocus](https://github.com/PaloAltoNetworks/misp-to-autofocus) - script for pulling events from a MISP database and converting them to Autofocus queries.
-* [MISP Golang](https://github.com/0xrawsec/golang-misp) - Golang Library to interact with your MISP instance.
+* [MISP2CbR](https://github.com/eCrimeLabs/MISP2CbR/) - MISP Threat Feed into CarbonBlack Response.
+* [misp2cs.py](https://github.com/xg5-simon/MISP-Integrations/blob/master/misp2cs.py) - script to put MISP events/indicators in Crowdstrike.
+* [misp_btc](https://github.com/rommelfs/misp_btc) - Fetch a list of BTC addresses (from MISP) in a given time range. Get the balance and all transactions recorded in Blockchain for the address. Shows the conversion rate in EUR and USD for the transaction at the date of transaction.
 * [misp-bulk-tag](https://github.com/morallo/misp-bulk-tag) - this script performs bulk tagging operations over MISP.
-* [misp42splunk](https://github.com/remg427/misp42splunk) - A Splunk app to use MISP in background.
+* [misp42splunk](https://github.com/remg427/misp42splunk) - A Splunk app to use one or more MISP in background. misp42splunk is also [available in splunkbase](https://splunkbase.splunk.com/app/4335/#/details).
 * [MISP-IOC-Validator](https://github.com/tom8941/MISP-IOC-Validator/) validates the format of the different IOC from MISP and to remove false positive by comparing these IOC to existing known false positive.
 * [misp-takedown](https://github.com/rommelfs/misp-takedown) - A curses-style interface for automatic takedown notification based on MISP events.
 * [OpenDXL-ATD-MISP](https://github.com/mohl1/OpenDXL-ATD-MISP) - Automated threat intelligence collection with McAfee ATD, OpenDXL and MISP.
@@ -104,9 +111,26 @@ For the additional software created by the MISP project, check our [MISP project
 * [otx_misp](https://github.com/gcrahay/otx_misp/) imports Alienvault OTX pulses to a MISP instance.
 * [pymisp-suricata_search](https://github.com/raw-data/pymisp-suricata_search) - Multi-threaded Suricata search module for MISP.
 * [polarity MISP integration](https://github.com/polarityio/misp) - The Polarity MISP integration allows Polarity to search your instance of MISP to return valid information about domains, IPS, and hashes.
+* [Sigma2MISP](https://github.com/Neo23x0/sigma/blob/master/README.md#sigma2misp) - Import Sigma rules to MISP events.
 * [Splunk integration with MISP](https://github.com/stricaud/TA-misp) - This TA allows to check if objects/attributes in your MISP instance matches your data in Splunk.
+* [surimisp](https://github.com/StamusNetworks/surimisp) - Check IOC provided by a MISP instance on Suricata events.
+* [Symantec DeepSight Intelligence integration](http://www.symantec.com/deepsight-products) is integrated with MISP and used in production intelligence environments.  DeepSight enables delivery of both technical indicators (e.g. malicious IPs, URLs, hashes) and adversary intelligence (e.g. actor, campaign, TTP profiles).
 * [TheHive](https://thehive-project.org/) A 3-in-1 Security Incident Response Platform has an extensive MISP support.
 * [ThreatPinchLookup](https://github.com/cloudtracer/ThreatPinchLookup)  - ThreatPinch Lookup creates informational tooltips when hovering oven an item of interest on any website and contains a MISP connector.
 * [tie2misp](https://github.com/DCSO/tie2misp) - Import DCSO TIE IOCs as MISP events.
 * [Viper](http://www.viper.li/) - is a binary management and analysis framework dedicated to malware and exploit researchers including a MISP module.
+* [vt2misp](https://github.com/eCrimeLabs/vt2misp) -  Script to fetch data from virustotal and add it to a specific event as an object.
 * [yara-exporter](https://github.com/BSI-CERT-Bund/yara-exporter) - Exporting MISP event attributes to yara rules usable with Thor apt scanner.
+
+### Tutorials on interconnecting MISP with other tools
+
+* [ELK](https://www.securitydistractions.com/2019/05/17/enriching-elasticsearch-with-threat-data-part-1-misp/) - Excellent guide by David Clayton, explaining how he integrated MISP with ElasticSearch/Logstash/Kibana via Memcached.
+
+### Libraries to access the MISP API
+
+* [PyMISP](https://github.com/MISP/PyMISP) the official Python library using the MISP Rest API.
+* [misp-rb](https://github.com/ninoseki/misp-rb) A dead simple MISP API wrapper for Ruby.
+* [MISP Golang](https://github.com/0xrawsec/golang-misp) - Golang Library to interact with your MISP instance.
+* [mispex](https://github.com/FloatingGhost/mispex) - An Elixir wrapper around MISP's HTTP API to provide native interaction.
+* [mispy](https://github.com/airbus-cert/mispy) - A pythonic MISP module.
+

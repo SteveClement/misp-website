@@ -13,13 +13,13 @@ layout: default
 						<!-- Blog -->
 							<section>
 								<header class="major">
-									<h2>News</h2>
+									<h2>News</h2><span><a href="https://www.misp-project.org/feed.xml"><img src="/assets/images/rss.svg" alt="RSS Feed" width="40" height="40" /></a></span>
 								</header>
 								{% for post in site.posts offset: 0 limit: 40 %}
 									<div class="row">
 										<section class="12u">
 											<div class="box post">
-												<a href="#" class="image left"><img src="{{ site.baseurl }}{{ post.featured }}" alt="" style="width: 25%; height: 25%"></a>
+												<a href="#" class="image left"><img src="{{ site.baseurl }}{{ post.featured }}" alt="post.excerpt" style=""></a>
 												<div class="inner">
                                                         <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
                                                     <i>Posted on {{ post.date | date_to_string }}</i>

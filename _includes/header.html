@@ -15,7 +15,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ site.baseurl }}/assets/images/ico/favicon-72.png">
     <link rel="apple-touch-icon-precomposed" href="{{ site.baseurl }}/assets/images/ico/favicon-57.png">
     <link rel="shortcut icon" href="{{ site.baseurl }}/assets/images/ico/favicon.png">
-    <link rel="profile" href="http://osprotocol.com" />
     <meta property="os:repo" content="https://github.com/MISP/misp-website" />
     <meta property="os:rcs_type" content="git" />
     <meta property="os:src" content="git@github.com:MISP/misp-website.git" />
@@ -58,14 +57,21 @@
                                         <li><a href="{{ site.baseurl }}/datamodels#misp-taxonomies">MISP taxonomies</a></li>
                                         <li><a href="{{ site.baseurl }}/datamodels#misp-galaxy">MISP galaxy</a></li>
                                         <li><a href="{{ site.baseurl }}/datamodels#misp-objects">MISP objects</a></li>
+                                        <li><a href="{{ site.baseurl }}/feeds/">Default feeds</a></li>
                                 </ul>
                             </li>
-                            <li {% if current[1] == 'documentation' %}class="current"{% endif %}><a href="{{ site.baseurl }}/documentation">Documentation</a></li>
+                            <li {% if current[1] == 'documentation' %}class="current"{% endif %}><a href="{{ site.baseurl }}/documentation">Documentation</a>
+                                <ul>
+                                        <li><a href="{{ side.baseurl }}/compliance">Legal and policy compliance</a></li>
+                                </ul>
+                            </li>
                             <li {% if current[1] == 'tools' %}class="current"{% endif %}><a href="{{ site.baseurl }}/tools">Tools</a></li>
                             <li {% if current[1] == 'who' %}class="current"{% endif %}><a href="{{ site.baseurl }}/who">Who</a>
                                 <ul>
                                         <li><a href="{{ site.baseurl }}/governance/">Governance</a></li>
+                                        <li><a href="{{ site.baseurl }}/contributing/">Contributing</a></li>
                                         <li><a href="{{ site.baseurl }}/contributors/">Contributors</a></li>
+                                        <li><a href="{{ site.baseurl }}/license/">License</a></li>
                                 </ul>
                             </li>
                             <li {% if current[1] == 'communities' %}class="current"{% endif %}><a href="{{ site.baseurl }}/communities">Communities</a></li>
