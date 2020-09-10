@@ -109,13 +109,17 @@ For the additional software created by the MISP project, check our [MISP project
 * [OpenDXL-ATD-MISP](https://github.com/mohl1/OpenDXL-ATD-MISP) - Automated threat intelligence collection with McAfee ATD, OpenDXL and MISP.
 * [OpenDXL-MISP-IntelMQ-Output](https://github.com/mohl1/OpenDXL-MISP-IntelMQ-Output) - This use case is focusing on the automated real-time threat sharing with MISP (Malware Intelligence Sharing Platform), orchestration tool (IntelMQ) and OpenDXL. IntelMQ is used to collect data from the Malware Intelligence Sharing Platform (MISP), to parse and push intelligence via OpenDXL.
 * [otx_misp](https://github.com/gcrahay/otx_misp/) imports Alienvault OTX pulses to a MISP instance.
+* [phish2MISP](https://github.com/eCrimeLabs/phish2MISP/) a small python script that can be used to gather information related to a phishing site and add it as an event in MISP.
 * [pymisp-suricata_search](https://github.com/raw-data/pymisp-suricata_search) - Multi-threaded Suricata search module for MISP.
 * [polarity MISP integration](https://github.com/polarityio/misp) - The Polarity MISP integration allows Polarity to search your instance of MISP to return valid information about domains, IPS, and hashes.
 * [Sigma2MISP](https://github.com/Neo23x0/sigma/blob/master/README.md#sigma2misp) - Import Sigma rules to MISP events.
+* [Sigma Importer - sigmai](https://github.com/0xThiebaut/sigmai) is a project designed to do the opposite of Sigma. The objective of sigmai is to convert specific data sources into the Sigma generic and open signature format.
+* [Slackbot](https://github.com/MISP/MISP/tree/2.4/tools/misp-zmq) - Slackbot for notification of MISP events in Slack channels.  
 * [Splunk integration with MISP](https://github.com/stricaud/TA-misp) - This TA allows to check if objects/attributes in your MISP instance matches your data in Splunk.
 * [surimisp](https://github.com/StamusNetworks/surimisp) - Check IOC provided by a MISP instance on Suricata events.
 * [Symantec DeepSight Intelligence integration](http://www.symantec.com/deepsight-products) is integrated with MISP and used in production intelligence environments.  DeepSight enables delivery of both technical indicators (e.g. malicious IPs, URLs, hashes) and adversary intelligence (e.g. actor, campaign, TTP profiles).
 * [TheHive](https://thehive-project.org/) A 3-in-1 Security Incident Response Platform has an extensive MISP support.
+* [threatingestor](https://pypi.org/project/threatingestor/) - An extendable tool to extract and aggregate IOCs from threat feeds.
 * [ThreatPinchLookup](https://github.com/cloudtracer/ThreatPinchLookup)  - ThreatPinch Lookup creates informational tooltips when hovering oven an item of interest on any website and contains a MISP connector.
 * [tie2misp](https://github.com/DCSO/tie2misp) - Import DCSO TIE IOCs as MISP events.
 * [Viper](http://www.viper.li/) - is a binary management and analysis framework dedicated to malware and exploit researchers including a MISP module.

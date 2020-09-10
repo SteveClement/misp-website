@@ -1,6 +1,3607 @@
 Changelog
 =========
 
+
+v2.4.131 (2020-09-08)
+---------------------
+
+New
+~~~
+- [types] pgp-public-key/pgp-private-key added. [iglocska]
+- [internal] filter "type" added for the internal fetcher. [iglocska]
+
+  - appends email as a type if email-src/email-dst are found
+- [types] email added as a new type, affects #6281. [iglocska]
+- [diagnostic] Check if database index is unique. [Jakub Onderka]
+- [API] added count returnformat for the REST api, fixes #6233.
+  [iglocska]
+
+  - simply counts the number of attributes/events found (on each respective scope)
+- [ACL] event blacklisting fully opened up to host org users. [iglocska]
+
+  - also added a new special permission for the ACL system host_org_user - which will evaluate whether the user is in the org configured in the MISP.host_org_id directive
+
+Changes
+~~~~~~~
+- [version] bump. [iglocska]
+- [PyMISP] Bump version. [Raphaël Vinot]
+- [misp-object] updated to the latest version. [Alexandre Dulaunoy]
+- [misp-galaxy] updated to the latest version. [Alexandre Dulaunoy]
+- [blocklist] Add comment for automatic event blocklist. [Jakub Onderka]
+- [internal] Faster tag fetching for events. [Jakub Onderka]
+- [internal] Little optimise Event::getRelatedAttributes. [Jakub
+  Onderka]
+- [internal] Optimise Event::getRelatedEvents for non correlated events.
+  [Jakub Onderka]
+- [internal] Optimise Event::__attachReferences method. [Jakub Onderka]
+- [PyMISP] bump. [Alexandre Dulaunoy]
+- [attributes] to_ids for new email type. [Alexandre Dulaunoy]
+- [PyMISP] bump (due to describetypes) [Alexandre Dulaunoy]
+- [attribute] pgp is not php ;-) [Alexandre Dulaunoy]
+- [event] Deduplicate related events for extended view. [Jakub Onderka]
+- [event] Deduplicate tags for extended view. [Jakub Onderka]
+- [type] email-src/email-dst descriptions redefined. Also added email to
+  the person category. [iglocska]
+- [OpenIOC] email type added to the export tool. [iglocska]
+- [complex parser] added email as an option for parsed email addresses.
+  [iglocska]
+- [openioc] added email type. [iglocska]
+- [nids] added email type. [iglocska]
+- [bro] added email type. [iglocska]
+- Bumped queryversion. [Sami Mokaddem]
+- [misp-object] updated to the latest version. [Alexandre Dulaunoy]
+- [misp-objects] updated to the latest version. [Alexandre Dulaunoy]
+- [db_schema] Updated schema to reflect the change with allowlist and
+  blocklist. [mokaddem]
+- [misp.js] Correctly check if the variable exists before comparing.
+  [mokaddem]
+- [misp.js] Make sure the selector path is a valid selection string.
+  [mokaddem]
+- [jquery] Bumped jQuery to version 3.5.1. [mokaddem]
+- [internal] Deduplicate code for event conditions. [Jakub Onderka]
+- [internal] Much faster quick filter. [Jakub Onderka]
+- [internal] Initialize Feed class just once. [Jakub Onderka]
+- [internal] Unsetting SharingGroup is not necessary. [Jakub Onderka]
+- [internal] Remove unused Event::getAccessibleEventIds. [Jakub Onderka]
+- [internal] Remove duplicate event_creator_email fetching. [Jakub
+  Onderka]
+- [internal] Simplified putting attributes to objects. [Jakub Onderka]
+- [internal] Use faster fetcher for viewing sightings. [Jakub Onderka]
+- [JS libraries] Updated to latest version. [mokaddem]
+- Bump PyMISP. [Raphaël Vinot]
+- Bump PyMISP. [Raphaël Vinot]
+- [internal] Using Allowedlist instead of Whitelist. [Golbark]
+- [internal] Using blocklist instead of blacklist. [Golbark]
+- [internal] Removed unused variables. [Jakub Onderka]
+- [internal] Event::__escapeCSVField is not used. [Jakub Onderka]
+- [internal] Event::generateRandomFileName just redefines AppModel
+  method. [Jakub Onderka]
+- [internal] Validation issues are already checked by fetcher. [Jakub
+  Onderka]
+- [internal] Warninglist::filterWarninglistAttributes takes just two
+  arguments. [Jakub Onderka]
+- [event] Deduplicate attribute related tags. [Jakub Onderka]
+- [db_schema_diagnostic] Do not display remediation queries if an update
+  is in progress. [mokaddem]
+- Install poetry in home directory. [Raphaël Vinot]
+- Bump PyMISP. [Raphaël Vinot]
+- [stix import] Importing test mechanisms from indicators as yara rules.
+  [chrisr3d]
+- [misp-object] updated to the latest version. [Alexandre Dulaunoy]
+- [misp-objects] updated to the latest version. [Alexandre Dulaunoy]
+- [installer] Made the globalVariables more flexible when you need to
+  override them. [Steve Clement]
+- [internal] Optimise fetching sightings for object. [Jakub Onderka]
+- [internal] Less SQL queries for event index page. [Jakub Onderka]
+- [internal] Distribution is checked by SQL. [Jakub Onderka]
+- [internal] Remove not necessary code. [Jakub Onderka]
+- [internal] Remove unused code. [Jakub Onderka]
+- [PyMISP] bump PyMISP. [Alexandre Dulaunoy]
+- [misp-galaxy] updated to the latest version. [Alexandre Dulaunoy]
+- [API] GET requests on restsearch with no parameters are no longer
+  allowed. [iglocska]
+
+  - warn the user of the use of GET queries with posted JSON bodies
+- [UI] Nicer selector for attribute search. [Jakub Onderka]
+- [correlation] Fetch just necessary fields. [Jakub Onderka]
+- [cleanup] removed duplicate check in beforefilter() of the
+  eventblacklists controller. [iglocska]
+
+Fix
+~~~
+- [internal] fix to various CLI commands breaking on the IP field in the
+  log table not having a default value, fixes #6263. [iglocska]
+- [internal] Fetch related events for merged events just when necessary.
+  [Jakub Onderka]
+- [db_schema] Missing index for feeds.orgc_id. [Jakub Onderka]
+- [UI] Blocklist mass delete. [Jakub Onderka]
+- [UI] Event blocklist. [Jakub Onderka]
+- Support IE with no template literal support. [Tom King]
+- [internal] Respect ACL for event attribute search. [Jakub Onderka]
+- [stix2 import] Quick fix on external indicator parsing. [chrisr3d]
+
+  - Specifying the indicator version while testing
+    if the object is an indicator to avoid issues
+  - Also added a small warning message for debugging
+    purposes when we face issues to parse the
+    pattern types
+- [stix2 import] Making sure we do not lose the event uuid. [chrisr3d]
+- [stix2 import] Removed useless test in relationships parsing.
+  [chrisr3d]
+- [stix2 import] Fixed external patterns parsing. [chrisr3d]
+
+  - Avoiding brackets to be imported with the type
+    and value within attributes
+  - Going with 55095910c
+- [API] blocklist behaviour index via the API returns empty list.
+  [iglocska]
+
+  - fixed
+- [stix2 import] Fixed external pattern types parsing. [chrisr3d]
+
+  - Avoiding issues with patterns containing parts
+    within brackets and separated by OR statements
+    giving results like "[file" instead of "file"
+- [cluster:index] Prevent highlighting non existing JSON. [mokaddem]
+- [popovers] Prevent closing inexisting popovers. [mokaddem]
+- [userSettings:set_home_page] Added missing view file. Fix #6245.
+  [mokaddem]
+- [serverShell:cacheFeeds] Correct usage of __n function. Fix #6238.
+  [mokaddem]
+- [appmodel] Create indexes after the column has been added. [mokaddem]
+- [stix import] Handling potential key errors with test mechanism types.
+  [chrisr3d]
+- [otp] Allow to send encrypted OTP by mail. [Jakub Onderka]
+- [stix import] Preventing external observables & ttps parsing to fail.
+  [chrisr3d]
+
+  - Testing if observables have properties before
+    trying to parse observable properties
+  - Catching exceptions when ttps cannot be parsed
+  - Should fix #6250
+- [internal] loading a missing proposal attachment leads to an
+  exception. [iglocska]
+
+  - should be silently logged and notice error sent
+- [enrich event] Typo. [chrisr3d]
+- [enrich event] Avoid freetext results to end up lost in the
+  interstellar space of orphaned attributes with no event_id. [chrisr3d]
+- [tag] Show correct count of tag attributes and events. [Jakub Onderka]
+- [UI] Event attribute filters works again. [Jakub Onderka]
+- [JS] Issue #6226 when adding object reference. [Jakub Onderka]
+- [JS] broken URLs due to the baseurl refactor. [iglocska]
+
+  - no need to prepend URLs taken from the forms themselves directly.
+- [internal] Remove unused compositeTypes variable. [Jakub Onderka]
+
+Other
+~~~~~
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [Raphaël Vinot]
+- Merge pull request #6297 from JakubOnderka/fix-merging-events. [Jakub
+  Onderka]
+
+  fix: [internal] Fetch related events for merged events just when necessary
+- Merge pull request #6296 from JakubOnderka/2.4. [Jakub Onderka]
+
+  fix: [db_schema] Missing index for feeds.orgc_id
+- Merge pull request #6293 from JakubOnderka/event-blocklist-view-fix.
+  [Jakub Onderka]
+
+  Event blocklist view fix
+- Merge pull request #6208 from JakubOnderka/faster_attach_tags. [Jakub
+  Onderka]
+- Merge pull request #6288 from JakubOnderka/reference-optimisation.
+  [Jakub Onderka]
+
+  chg: [internal] Optimise Event::__attachReferences method
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [Alexandre
+  Dulaunoy]
+- Merge pull request #6179 from denny-lclin/fix/variable-name-typo.
+  [Christian Studer]
+
+  [stix1 export] fix some variables' typo
+- [stix1 export] fix some variables' typo. [Denny Lin]
+- Merge pull request #6259 from
+  JakubOnderka/extended_view_deduplication. [Jakub Onderka]
+
+  Extended view deduplication
+- Merge branch 'email_type' into 2.4. [iglocska]
+- Merge branch 'js-libs-update' into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into js-libs-update.
+  [mokaddem]
+- Merge pull request #6282 from tomking2/bug/IE-support. [Andras Iklody]
+
+  fix: Support IE with no template literal support
+- Merge pull request #6254 from JakubOnderka/unique_index_diagnostic.
+  [Jakub Onderka]
+
+  new: [diagnostic] Check if database index is unique
+- Merge pull request #6274 from
+  JakubOnderka/acl_filter_attribute_values. [Jakub Onderka]
+
+  fix: [internal] Respect ACL for event attribute search
+- Merge branch '2.4' of github.com:MISP/MISP into js-libs-update.
+  [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into js-libs-update.
+  [mokaddem]
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge pull request #6219 from JakubOnderka/event-small-optim. [Jakub
+  Onderka]
+
+  Event small optim
+- Merge pull request #6271 from JakubOnderka/faster_quick_filter. [Jakub
+  Onderka]
+
+  chg: [internal] Much faster quick filter
+- Merge pull request #6265 from JakubOnderka/not-necessary-code-vol2.
+  [Jakub Onderka]
+
+  Remove not necessary code vol2
+- Fixup! chg: [internal] Simplified putting attributes to objects.
+  [Jakub Onderka]
+- Merge pull request #6268 from JakubOnderka/sightings-faster-fetcher.
+  [Jakub Onderka]
+
+  chg: [internal] Use faster fetcher for viewing sightings
+- Merge pull request #6267 from Golbark/rename_bl. [Andras Iklody]
+
+  Rename blacklist and whitelist to alternatives
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge pull request #6264 from JakubOnderka/not-necessary-code. [Jakub
+  Onderka]
+
+  Remove not necessary code
+- Merge branch 'fix-6249' into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into fix-6249. [mokaddem]
+- Merge pull request #6262 from JakubOnderka/deduplicate_related_tags.
+  [Jakub Onderka]
+
+  chg: [event] Deduplicate attribute related tags
+- Merge pull request #6258 from MISP/travis_poetry. [Raphaël Vinot]
+
+  chg: Install poetry in home directory
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge pull request #6214 from JakubOnderka/otp-encryption. [Jakub
+  Onderka]
+
+  fix: [otp] Allow to send encrypted OTP by mail
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [Alexandre
+  Dulaunoy]
+- Merge pull request #6241 from SteveClement/tools. [Steve Clement]
+
+  chg: [installer] Made the globalVariables more flexible
+- Merge pull request #6203 from JakubOnderka/tag-count. [Andras Iklody]
+
+  Show proper number of attributes and events for tags
+- Event ID translation feature (#6212) [Loïc Fortemps]
+
+  * new: [sync] Event ID translation between sync servers
+- Merge pull request #6237 from jtdroste/expanded-ip-logging. [Andras
+  Iklody]
+
+  new: Add the ability to customize the IP header field when logging
+- Add the ability to customize the IP header field when logging. [James
+  Droste]
+- Merge pull request #6234 from JakubOnderka/event-filters-fix. [Jakub
+  Onderka]
+
+  fix: [UI] Event attribute filters works again
+- Merge pull request #6230 from JakubOnderka/event-small-optim-simple.
+  [Jakub Onderka]
+
+  Small optimisation for event index page
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #6228 from JakubOnderka/fix-6226. [Jakub Onderka]
+
+  fix: [JS] Issue #6226 when adding object reference
+- Merge pull request #6225 from rmkml/2.4. [Alexandre Dulaunoy]
+
+  add SHA3 Hash on Attribut.php
+- Add SHA3 Hash on Attribut.php. [rmkml]
+- Feature/achievements widget (#6129) [Christophe Vandeplas, Loïc
+  Fortemps, Steve Clement]
+
+  * Additionnal protection against XSS, the response type defaults to html while it should be JSON.
+  * new: widget: Achievements widget
+  * Update AchievementsWidget.php
+  * Update AchievementsWidget.php
+  * Visual adjustments, new badges
+  * i18n
+  * indentation to MISP convention
+  * AchievementsWidget minor textual improvements
+  * Optimized query and fix issue with i18n
+- Merge pull request #6221 from cudeso/2.4. [Alexandre Dulaunoy]
+
+  MISP-SNMP Monitor script
+- Add SNMP configuration snippet. [Koen Van Impe]
+- MISP-SNMP Monitor script. [Koen Van Impe]
+
+  Script to return statistics which can be picked up via SNMP.
+  Post for monitoring with Cacti (inspired by OpenNSM) will follow
+  shortly.
+- Merge remote-tracking branch 'MISP/2.4' into 2.4. [Koen Van Impe]
+- Merge pull request #6200 from JakubOnderka/us-attr-search. [Jakub
+  Onderka]
+
+  chg: [UI] Nicer selector for attribute search
+- Merge pull request #6222 from JakubOnderka/correlation-fetch-optim.
+  [Jakub Onderka]
+
+  chg: [correlation] Fetch just necessary fields
+- Merge pull request #6220 from obert01/fix-accessibility. [Andras
+  Iklody]
+
+  A few accessibility fixes for users of screen readers
+- A few accessibility fixes for users of screen readers: - Added aria
+  label and role for the representation of booleans in generic index
+  tables, - Fixed Aria label for actions in generic index tables, - Set
+  titles for actions in the admin user index table, - Added a few
+  missing aria labels in the global menu. [Olivier BERT]
+
+
+v2.4.130 (2020-08-20)
+---------------------
+
+New
+~~~
+- [internal] cache tags instead of loading them over and over via the
+  event fetcher, fixes #6201. [iglocska]
+
+  - should speed things up for exports of datasets that have a lot of recurring tags
+  - moved the caching of some internals to the appmodel level to make it more generic
+- [internal] Support autocrypt when sending e-mails. [Jakub Onderka]
+- [internal] 'GnuPG.obscure_subject' option to not send unencrypted
+  subject. [Jakub Onderka]
+- [internal] Log if e-mail was send encrypted or not. [Jakub Onderka]
+- [administration] lightweight slow query log analysis added. [iglocska]
+
+  usage: /var/www/MISP/app/Console/cake Statistics analyse_slow_logs [path_to_slow_log]
+- [widgets] Additional widgets for sharing statistics and layouts.
+  [Golbark]
+- Allow tag deletion for an event on update. [Tom King]
+- Allow for attribute tag deletion via Event or Attribute edit. Clean
+  and return the attribute tags on response from editing an attribute,
+  update code to remove legacy. [Tom King]
+- [UI] Show event preview when merging. [Jakub Onderka]
+- [attribute] Add support for IDN domains. [Jakub Onderka]
+- [opt] Added non interactive place holder. [Steve Clement]
+- New: [freetext] Convert `[at]` to `@` and `hxtp` and `htxp` to `http`
+  [Jakub Onderka]
+
+  Fixes #4908 and #4805
+
+Changes
+~~~~~~~
+- [VERSION] bump. [iglocska]
+- [misp-taxonomies] updated to the latest version. [Alexandre Dulaunoy]
+- [PyMISP] Bump tag. [Raphaël Vinot]
+- Bump PyMISP. [Raphaël Vinot]
+- [misp-object] updated to the latest version. [Alexandre Dulaunoy]
+- [misp-objects] updated to the latest version. [Alexandre Dulaunoy]
+- [misp-objects] updated. [Alexandre Dulaunoy]
+- [misp-objects] updated to the latest version. [Alexandre Dulaunoy]
+- [misp-galaxy] updated to the latest version. [Alexandre Dulaunoy]
+- [correlation] Use less memory when generating correlation. [Jakub
+  Onderka]
+- [misp-galaxy] updated to the latest version. [Alexandre Dulaunoy]
+- [internal] Break loop when match is found. [Jakub Onderka]
+- [UI] Nicer tag removal confirmation. [Jakub Onderka]
+- [internal] Reuse AttachmentTool instance. [Jakub Onderka]
+- [internal] Generate event date even if attachments doesn't exists.
+  [Jakub Onderka]
+- [internal] Move attachment handling to one place. [Jakub Onderka]
+- [mail] Initialize GPG just once. [Jakub Onderka]
+- [mail] Simplified Message-ID generation. [Jakub Onderka]
+- [internal] Move GPG initialization to GpgTool. [Jakub Onderka]
+- [test] Set correct setting for GPG. [Jakub Onderka]
+- [internal] Protect also Reply-To header. [Jakub Onderka]
+- [internal] Protect also Date header. [Jakub Onderka]
+- [internal] Refactor S/MIME certificate validation. [Jakub Onderka]
+- [internal] Rework email sending. [Jakub Onderka]
+- [test] Show all logs from /app/tmp/logs/ folder. [Jakub Onderka]
+- [test] Do not show progress for composer. [Jakub Onderka]
+- [test] Show generated gpg keys. [Jakub Onderka]
+- [test] Remove dist-upgrade to speed up build. [Jakub Onderka]
+- [test] Run apt-get install just once to speed up build. [Jakub
+  Onderka]
+- [doc] Added php-zip. [Steve Clement]
+- [internal] Update correlations in one query. [Jakub Onderka]
+
+  Before, for every event saving action, four queries for updating correlations were generated
+- [warning-lists] updated to the latest version. [Alexandre Dulaunoy]
+- [CLI] Allow to fetch remove event by UUID. [Jakub Onderka]
+- [internal] Refactor Server::getEventIdsFromServer. [Jakub Onderka]
+- [internal] stub for a simple caching mechanism for recurring queries.
+  [iglocska]
+- [users:login] No longer fetch login form multiple times. - Reverted
+  monkey patch - Removed the onclick listener responsible to calling the
+  function twice. [mokaddem]
+- [posts] Allow to add comment to any user that can see event. [Jakub
+  Onderka]
+- [UI] Do not exclude local tags when viewing event. [Jakub Onderka]
+- [UI] Allow to add local galaxy for non host org user. [Jakub Onderka]
+- [proposals:index] Migrated index to the factory index. [mokaddem]
+- [api] fixed restresponse for blacklists. [iglocska]
+- [feed] Better exception messages for invalid JSON. [Jakub Onderka]
+- Bump PyMISP. [Raphaël Vinot]
+- [users:login] Removed duplicated submit button. [mokaddem]
+- Bumped queryversion. [mokaddem]
+- [tags:attachTagToObject] Support array of tags. Fix #5534. [mokaddem]
+- [misp.js] Applied codefactor comments. [mokaddem]
+- [objects:edit] Typo in comments. [mokaddem]
+- [objects:edit] Replaced usage of cookie with session. [mokaddem]
+- [objects:edit] Merge data is passed via cookies instead of the URI.
+  [mokaddem]
+- [attributes:massEditForm] Pass attributes ids to be edited via POST.
+  [mokaddem]
+
+  Fix #5500
+- [internal] Initialize UserSetting just when needed. [Jakub Onderka]
+- [users:acceptRegistration] Displays an error message if saved failed
+  Fix #6134. [mokaddem]
+- Bump PyMISP. [Raphaël Vinot]
+- Bump PyMISP, fix test. [Raphaël Vinot]
+- [event:freetextImport] Usage of primaryOnlyCorrelatingTypes and limit
+  the number of correlations displayed. [mokaddem]
+- [internal] Faster loading sighting. [Jakub Onderka]
+- [internal] Small controller cleanup. [Jakub Onderka]
+- [warning-lists] major update. [Alexandre Dulaunoy]
+- [correlations] Faster loading related attributes. [Jakub Onderka]
+- [UI] Side menu optimisations and cleanup. [Jakub Onderka]
+- [feed] Use less memory when parsing CSV feeds. [Jakub Onderka]
+- [internal] Better error handling for JSON decoding. [Jakub Onderka]
+- [UI] Add proposal form refactor. [Jakub Onderka]
+- Bump PyMISP. [Raphaël Vinot]
+- [attributeTag:handleAttributeTags] Removed useless conditions.
+  [mokaddem]
+- [AttributeTags:handleAttributeTags] More generic way to handle capture
+  and association. [mokaddem]
+- [attribute] Added tag handling when saving attributes and objects.
+  [mokaddem]
+- [tag] Support of untagging in Object's Attribute and other fixes.
+  [mokaddem]
+
+  - deleted: 0 is correctly handled
+  - stopped usage of `editAttribute` from Attribute Controller
+- [attribute:editAttribute] Uage of `editableFields` instead of
+  hardcoded array. [mokaddem]
+- [object] Avoid notices if some object attributes fields are not set.
+  [mokaddem]
+- [object:edit] Allow deleting objects by passing `deleted` flag.
+  [mokaddem]
+
+  Fix #6024
+- [stix2 export] Avoiding testing the same field twice. [chrisr3d]
+
+  - Following #6132 recently merged, which avoids
+    potential KeyError exceptions, thanks to
+    @denny-lclin
+- [internal] Faster generating correlations when enabling for event by
+  toggle. [Jakub Onderka]
+- [UI] Wait 100 ms before showing event info. [Jakub Onderka]
+- [UI] Add link to event in event info. [Jakub Onderka]
+- [internal] Better job progress and status logging. [Jakub Onderka]
+- [requirements] Aligning requirements file with Pipfile regarding stix
+  library requirements. [chrisr3d]
+- Bumped latest misp-opendata updates. [chrisr3d]
+- [events:index] Renamed `org` into `creator org`. Fix #6012. [mokaddem]
+- [opendata export] Support of the search functionality + fixed url
+  parameter used in the delete feature. [chrisr3d]
+- [internal] Faster checking if warninglist already exists for event.
+  [Jakub Onderka]
+- [internal] Initialize FinancialTool just when necessary. [Jakub
+  Onderka]
+- [misp-opendata] Bumped latest version. [chrisr3d]
+- [freetext] Various code fixes and optimisations. [Jakub Onderka]
+- [internal] More tests for ComplexTypeTool::checkFreeText. [Jakub
+  Onderka]
+- [internal] Simplified ComplexTypeTool::checkFreeText. [Jakub Onderka]
+- [opendata export] Parsing portal url parameter + slight parameters
+  parsing changes. [chrisr3d]
+
+  - As the possibility of specifying the url of the
+    Open data portal to use instead of the default
+    one, we support here this parameter and adapt
+    the way we build the command that will launch
+    the python script
+  - Slight changes to replace some isset tests by
+    empty tests to make sure the concerned fields
+    are not only set, but also contain a value
+- [diagnostic] Updated required stix2 library version. [chrisr3d]
+
+Fix
+~~~
+- [internal] Syntax error in bootstrap.default.php. [Jakub Onderka]
+- [invalid element reference] element filepath was incorrectly treated
+  as a url. [iglocska]
+- [UI] Show correct options in menu. [Jakub Onderka]
+- [internal] Notice when adding tag to collection. [Jakub Onderka]
+- [security] Check tag restriction for collection tags. [Jakub Onderka]
+- [security] Check tag restriction for attribute tags. [Jakub Onderka]
+- [security] Check tag restriction for event tags. [Jakub Onderka]
+- [attachment] Do not fetch attachment when accepting deletion proposal.
+  [Jakub Onderka]
+- [UI] Showing image thumbnail. [Jakub Onderka]
+- [test] Use two spaces to pass the test. [Jakub Onderka]
+- [internal] Throw exception if invalid event for contact method is
+  provided. [Jakub Onderka]
+- [test] Set GnuPG.email variable. [Jakub Onderka]
+- [internal] Fix undefined index notices. [Jakub Onderka]
+- [test] GPG homedir permission. [Jakub Onderka]
+- [internal] SendEmail exceptions message and logging. [Jakub Onderka]
+- [internal] Do not leak IP address in Message-ID. [Jakub Onderka]
+- [internal] Throw exception when invalid event id provided for contact
+  email. [Jakub Onderka]
+- [intrernal] Undefined index: Organisation notice. [Jakub Onderka]
+- [cli] Show error when invalid user ID provided. [Jakub Onderka]
+- [test] Install missing python3-redis package. [Jakub Onderka]
+- [test] Show error and debug logs also after success test. [Jakub
+  Onderka]
+- [test] Start workers under www-data group. [Jakub Onderka]
+- [doc]  Amended CentOS8 install doc. Removed ssdeep, not working
+  anymore. [Steve Clement]
+- [events:queryEnrichment] Recovers tag colour. [mokaddem]
+
+  - Fix #6186
+- [security] Check if user can access sharing group when uploading
+  attachment. [Jakub Onderka]
+- [UI] Bad merge for mass edit form. [Jakub Onderka]
+- [proposals] Downloading proposal attachment. [Jakub Onderka]
+- [ACL] Allow proposal author to discard it. [Jakub Onderka]
+- [security] Respect ACL for freetext import. [Jakub Onderka]
+- [security] Throw exception if invalid data provided. [Jakub Onderka]
+- [ACL] Use common methods for ACL when editing object reference. [Jakub
+  Onderka]
+- [ACL] Unpublished private for object do not apply for site admin.
+  [Jakub Onderka]
+- [security] Sharing groups for objects respect permissions. [Jakub
+  Onderka]
+- [tags] Show just tags that user can really use. [Jakub Onderka]
+- [security] Respect ACL for proposals. [Jakub Onderka]
+- [proposals] Respect unpublished private event when loading proposals.
+  [Jakub Onderka]
+- [internal] Check `allow_disabling_correlation` before correlation
+  toggle. [Jakub Onderka]
+- [security] ACL check when loading ajax tags. [Jakub Onderka]
+- [security] ACL check when adding or removing tags. [Jakub Onderka]
+- [security] ACL check when editing multiple event attributes. [Jakub
+  Onderka]
+- [security] Respect ACL when event edit. [Jakub Onderka]
+- [stix import] Better TTPs parsing for external STIX. [chrisr3d]
+- [stix import] Fixed parameter determining if a ttp should be handled
+  as attribute/object or as galaxy. [chrisr3d]
+- [stix export] Adding Vulnerability objects created out of attributes
+  to the list of leveraged ttps. [chrisr3d]
+- [stix import] Same change for external indicator as we just did for
+  external observables. [chrisr3d]
+
+  - We also changed the code comments to make them clearer
+- [stix import] Handling the case of multiple attributes returned from
+  the parsing. [chrisr3d]
+
+  - If we get a list of actual attributes, we then
+    handle the MISP object case, otherwise it means
+    it is simply a list of attribute values, and we
+    add as many attributes as there are values
+- [stix import] Splitted threat actors import parsing. [chrisr3d]
+
+  - We now have specific a threat actors parsing for
+    external STIX data, since the structure of the
+    threat actor objects may not always be the same
+  - Parsing threat actors from STIX documents
+    produced with MISP remains the same
+- [stix import] Using generic Exception instead of specific ones to
+  handle the results of the attribute parsing. [chrisr3d]
+
+  - A lot of different exception types may be raised
+    while parsing external stix data
+- [zmg] failing to publish to the ZMQ channel when MISP.org is invalid
+  fixed, fixes #6174. [iglocska]
+
+  - use the host org ID
+  - if it's not set (should never happen), just take the lowest ID org
+- [login] endless blackholeannoyance fixed via monkey-patch. [iglocska]
+- [API] org blacklist copy pasta preventing additions of entries fixed.
+  [iglocska]
+- [api] minor fix to the blacklist responses. [iglocska]
+- [API] blacklisting - don't throw 500 when no valid input is presented
+  on the add interface. [iglocska]
+- [feed] Make HttpSocket instance optional for local feeds. [Jakub
+  Onderka]
+- [ACLComponent] Updated permissions. [mokaddem]
+- [attributes] Do not override unlockedActions anymore. [mokaddem]
+- [attributes:massEditForm] Invalid conditions fixed and performances
+  improvements. [mokaddem]
+- [attributes:massEditForm] Check if event exists. [mokaddem]
+- [users:login] Blackhole on login screen. [mokaddem]
+
+  Fetch, fill and submit a fresh form on login avoiding blackholes due to
+  expired form token
+- [blacklists] fixed add event blacklist via API calls. [iglocska]
+- [internal] older PHP still not happy with the return from a generator.
+  [iglocska]
+- [db_schema] Added feeds.orgc_id in the index. [mokaddem]
+
+  Fix #5838
+- [internal] make ancient PHP versions happy. [iglocska]
+- [users:edit] Reset AUTHKey via interface. [mokaddem]
+
+  Fix #6082
+- [unicode] Temporarily escape 4 byte characters until we move the
+  attribute value fields to mb4, fixes #5123. [iglocska]
+
+  - fixes sync/feed issues related to 4 byte unicode characters
+- [administration] added missing column. [iglocska]
+- [administration] fixed var name. [iglocska]
+- [object:edit] Updating an object to a new template acutally save the
+  template version Fix #6083. [mokaddem]
+- [pull] Check if url_params in pull filter is empty string. [Jakub
+  Onderka]
+- [UI] clearer sync error message for no sync privileges. [iglocska]
+- [internal] Throw NotFoundException for non exists UUID. [Jakub
+  Onderka]
+- [UI] Missing echo for decay score table header. [Jakub Onderka]
+- [internal] Feed controller cleanup. [Jakub Onderka]
+- [UI] Remove PHP warnings from side_menu_link.ctp. [Jakub Onderka]
+- [stix export] Fixed child-pid attributes export that used to make the
+  process object export fail. [chrisr3d]
+- [attribute:editableFields] Typo in variable name. [mokaddem]
+- [attributes:edit] Correct error previsouly merged when importing code.
+  [mokaddem]
+- [stix import] Fixed the remaining failing object references.
+  [chrisr3d]
+- [stix import] Fixed references between file, pe & pe-section obects +
+  moved mapping dict to the mapping script. [chrisr3d]
+- [object:edit] Correctly set the SG of the added new attributes Fix
+  #6025. [mokaddem]
+- [objects:edit] Returns the latest state of the object if it were
+  deleted. [mokaddem]
+- [attribute] Allow editing attributes. [mokaddem]
+
+  Added raw values fields in the `editableFields`
+- [sync] drop the republishing of events when the modification is merely
+  a timestamp bump. [iglocska]
+
+  - due to an already fixed issue still lingering, invalid event edits keep getting synchronised between instances
+  - these events still generate publish alerts erroneously
+
+  - this fix compares the previous state of the event to the modification, if there are no material changes (attributes, objects, object relations, event tags added/updated) then the publishing is dropped.
+- [stix import] Fixed port in ip-port objects import to lose src and dst
+  context. [chrisr3d]
+- [stix export] Fixed the slight difference between parsing x509
+  fingerprint attributes and x509 objects. [chrisr3d]
+- [stix export] Fixed x509 fingerprint attributes export & moved mapping
+  dictionaries to the mapping script. [chrisr3d]
+
+  - Only the x509-fingerprint-sha1 attribute was
+    exported, and as a standard sha1 attribute,
+    which was a loss of context, now the x509
+    fingerprint attributes (md5, sha1 & sha256) are
+    exported as expected within a x509 observable
+  - Also moved the mapping dictionaries with the
+    appropriate indent to the mapping script, where
+    they should belong
+- [stix export] Fixed pep8 & changed indentation for better readability.
+  [chrisr3d]
+- [attribute:edit] Prevent the edition of system reserved fields.
+  [mokaddem]
+- [feed:importFreeText] Make sure to update the timestamp when soft-
+  deleting after delta-merge. [mokaddem]
+
+  Fix #6013
+- [events:index] Do not show events if org doesn't belong to the SG.
+  [mokaddem]
+
+  Event belonging to an organisation which is not
+  included in the sharing group assigned to the event will not see the
+  event on the index anymore.
+  Fix #6033
+  Fix #6107
+- [feed] Accept more text content. Fix #5969. [mokaddem]
+- [stix import] Importing single vulnerability attributes as
+  vulnerability and not as text. [chrisr3d]
+- [sync] internal sync now correctly syncs local tags. [iglocska]
+
+  - also fixes a notice about a missing tag in the sync
+- [galaxyClusters:view] Fixed full_group_by issue when viewing the
+  galaxy matrix. [mokaddem]
+- [UI] Show proper menu when editing event info. [Jakub Onderka]
+- [attributes:massEdit] proposal option not by default. [Christophe
+  Vandeplas]
+
+  this way we do not change the default behavior which was changed in commit 9b33476eedd184bc46665aaae57533ddcf35e5f7
+- [proposals] Delete proposals for object attributes. [Jakub Onderka]
+- Minor typo. [Christophe Vandeplas]
+- [installer] Installer was broken, now fixed. [Steve Clement]
+- [bug] Check for non-existen directory fails if exists. [Steve Clement]
+- [internal] Remove unused Event::setSimpleConditions method. [Jakub
+  Onderka]
+- [internal] Remove unused CidrComponent and CIDRTool classes. [Jakub
+  Onderka]
+- [correlations] Purge ssdeep table after attribute delete. [Jakub
+  Onderka]
+- [audit] Show all attribute changes in event history. [Jakub Onderka]
+- [internal] Do not check event existence twice. [Jakub Onderka]
+- [internal] Reduce number of regexp in refang table. [Jakub Onderka]
+- [freetext] Handle IPv6 and punycode domains when import. [Jakub
+  Onderka]
+- [security] xss fix missing part of solution. [iglocska]
+
+  - the previous fix to the xss in the homepage setter was lacking the controller changes due to a partial commit (#bf4610c947c7dc372c4078f363d2dff6ae0703a8)
+
+    - as originally discovered by Mislav Božičević <mislav.bozicevic@nn.cz>
+    - persistence of the vulnerability after the lacking fix reported by DIEGO JURADO PALLARES from Ciberinteligencia
+- [opendata export] Adding auth param in the python command only if not
+  empty. [chrisr3d]
+
+Other
+~~~~~
+- Merge pull request #6204 from JakubOnderka/2.4. [Jakub Onderka]
+
+  fix: [internal] Syntax error in bootstrap.default.php
+- Merge branch 'baseurl' into 2.4. [iglocska]
+- Syntax check and fix. [Vito Piserchia]
+- Recover from upstream version missing bits. [Vito Piserchia]
+- Recover from upstream version missing bits. [Vito Piserchia]
+- Merge remote-tracking branch 'upstream/2.4' into baseurl-patch. [Vito
+  Piserchia]
+- Rebase continue. [Vito Piserchia]
+- Rebase continue. [Vito Piserchia]
+- Fix genericPopup. [johndoe]
+- Use this here. [johndoe]
+- Use this here. [johndoe]
+- Rebase continue. [Vito Piserchia]
+- Fix rebase. [johndoe]
+- Fix rebase. [johndoe]
+- Fix rebase. [johndoe]
+- Fix rebase. [johndoe]
+- Fix rebase. [johndoe]
+- Fixed Codacy warnings. [Léarch]
+- Corrected redirections. [Léarch]
+
+  See the following for an explanation:
+  https://stackoverflow.com/questions/6836990/how-to-get-complete-current-url-for-cakephp#comment11184149_6875310
+- Rebase continue. [Vito Piserchia]
+- Rebase continue. [Vito Piserchia]
+- Fix rebase. [johndoe]
+- Rebase continue. [Vito Piserchia]
+- Added missed variable declaration. [Vito Piserchia]
+- Improve code quality. [Vito Piserchia]
+- Rebase continue. [Vito Piserchia]
+- Rebase continue. [Vito Piserchia]
+- Fix genericPopup. [Vito Piserchia]
+- Rebase continue. [Vito Piserchia]
+- Rebase continue. [Vito Piserchia]
+- Fix baseurl use to view organizations. [Léarch]
+- Fixed Codacy warnings. [Léarch]
+- Corrected redirections. [Léarch]
+
+  See the following for an explanation:
+  https://stackoverflow.com/questions/6836990/how-to-get-complete-current-url-for-cakephp#comment11184149_6875310
+- Rebase continue. [Vito Piserchia]
+- Rebase continue. [Vito Piserchia]
+- More merge fixes. [Vito Piserchia]
+- Resolve merge. [Vito Piserchia]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #6176 from JakubOnderka/fix-menu. [Jakub Onderka]
+
+  fix: [UI] Show correct options in menu
+- Merge pull request #6202 from rmkml/2.4. [Andras Iklody]
+
+  add vhash (VirusTotal Hash) on Attribut.php
+- Add vhash (VirusTotal Hash) on Attribut.php. [rmkml]
+- Merge pull request #6199 from JakubOnderka/generate-correlation-
+  memory. [Jakub Onderka]
+
+  chg: [correlation] Use less memory when generating correlation
+- Merge pull request #6196 from JakubOnderka/event-tags. [Jakub Onderka]
+
+  Event tag adding and removing
+- Fixup! chg: [UI] Nicer tag removal confirmation. [Jakub Onderka]
+- Merge pull request #5865 from JakubOnderka/attachment_tool. [Jakub
+  Onderka]
+
+  chg: [internal] Move attachment handling to one place
+- Merge pull request #5240 from JakubOnderka/patch-43. [Jakub Onderka]
+
+  chg: [internal] Refactor e-mail sending
+- Merge pull request #6192 from JakubOnderka/notices-fix. [Jakub
+  Onderka]
+
+  Notices fixes
+- Merge pull request #6191 from JakubOnderka/travis-fixes-vol2. [Jakub
+  Onderka]
+
+  Travis fixes vol2
+- Merge pull request #6190 from JakubOnderka/travis-fixes. [Jakub
+  Onderka]
+
+  Travis fixes
+- Merge pull request #6187 from SteveClement/guides. [Steve Clement]
+- Merge pull request #5948 from JakubOnderka/update-correlations. [Jakub
+  Onderka]
+
+  chg: [internal] Update correlations in one query
+- Merge pull request #6001 from JakubOnderka/get-events-refactoring.
+  [Jakub Onderka]
+
+  chg: [internal] Refactor Server::getEventIdsFromServer
+- Merge pull request #6181 from JakubOnderka/checek-sg-perm. [Jakub
+  Onderka]
+
+  fix: [security] Check if user can access sharing group when uploading…
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #6178 from JakubOnderka/fix-mass-edit. [Jakub
+  Onderka]
+
+  Fix mass edit
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [chrisr3d]
+- Merge pull request #6175 from JakubOnderka/shadow-fix. [Jakub Onderka]
+
+  Shadow fix
+- Merge pull request #6172 from JakubOnderka/freetext-import-acl2.
+  [Jakub Onderka]
+
+  fix: [security] Respect ACL for freetext import
+- Merge pull request #6136 from JakubOnderka/acl-can-modify-chekcs.
+  [Jakub Onderka]
+
+  fix: [security] Respect ACL when event edit
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [chrisr3d]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #6156 from JakubOnderka/feed-httpsocket-optional.
+  [Jakub Onderka]
+
+  fix: [feed] Make HttpSocket instance optional for local feeds
+- Merge pull request #6052 from stricaud/2.4. [Andras Iklody]
+
+  Using json parser to parse json configuration output from cake
+- Using json parser to parse json configuration output from cake.
+  [Sebastien Tricaud]
+- Merge branch 'fix-no-more-login-blackhole' into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into fix-no-more-login-
+  blackhole. [mokaddem]
+- Merge branch 'fix-mass-edit-form-with-post' into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into fix-mass-edit-form-
+  with-post. [mokaddem]
+- Merge branch 'feature-5534' into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into feature-5534.
+  [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into feature-5534.
+  [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into fix-mass-edit-form-
+  with-post. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into fix-mass-edit-form-
+  with-post. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge pull request #6154 from JakubOnderka/tags-fix. [Sami Mokaddem]
+
+  chg: [internal] Initialize UserSetting just when needed
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch 'fix-align-object-with-latest-template' into 2.4.
+  [mokaddem]
+- Merge pull request #6150 from JakubOnderka/2.4. [Jakub Onderka]
+
+  fix: [pull] Check if url_params in pull filter is empty string
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch 'fix-freetext-correlation-improvements' into 2.4.
+  [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into fix-freetext-
+  correlation-improvements. [mokaddem]
+- Merge pull request #6148 from JakubOnderka/controller-cleanup. [Jakub
+  Onderka]
+
+  chg: [internal] Small controller cleanup
+- Merge pull request #6146 from JakubOnderka/toolbox-non-exists-uuid.
+  [Jakub Onderka]
+
+  fix: [internal] Throw NotFoundException for non exists UUID
+- Merge pull request #6144 from JakubOnderka/feeds-controller-cleanup.
+  [Jakub Onderka]
+
+  fix: [internal] Feed controller cleanup
+- Merge branch 'fix-update-tags-on-attribute-edit' into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into fix-update-tags-on-
+  attribute-edit. [mokaddem]
+- Merge pull request #5954 from JakubOnderka/get-related-attributes-
+  faster. [Jakub Onderka]
+
+  chg: [correlations] Faster loading related attributes
+- Merge pull request #6126 from JakubOnderka/side-menu-optim. [Jakub
+  Onderka]
+
+  chg: [UI] Side menu optimisations and cleanup
+- Merge pull request #6115 from JakubOnderka/freetext-fixes-vol2. [Jakub
+  Onderka]
+
+  chg: [feed] Use less memory when parsing CSV feeds
+- Merge pull request #6031 from JakubOnderka/json_error_handling. [Jakub
+  Onderka]
+
+  chg: [internal] Better error handling for JSON decoding
+- Merge pull request #6141 from JakubOnderka/proposal-form-refactor.
+  [Jakub Onderka]
+
+  chg: [UI] Add proposal form refactor
+- Add: [stix import] Support the import of port, command-line & image
+  attributes in process objects. [chrisr3d]
+- Add: [stix export] Process objects export now supports port
+  attributes. [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge pull request #6142 from Golbark/feature/sharing_widgets. [Andras
+  Iklody]
+
+  new: [widgets] Additional widgets for sharing statistics and layouts
+- Add: [stix export] Process object export has been improved to support
+  image & command-line attributes. [chrisr3d]
+- Merge branch 'feature/tags-deletion' into fix-update-tags-on-
+  attribute-edit. [mokaddem]
+- Merge remote-tracking branch 'origin/2.4' into feature/tags-deletion.
+  [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into pr-
+  feature/tags_deletion. [mokaddem]
+- Merge remote-tracking branch 'upstream/2.4' into
+  feature/tags_deletion. [Tom King]
+- Merge branch '2.4' into feature/tags_deletion. [Tom King]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge branch 'true-2.4' into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #6132 from denny-lclin/fix/key-error-in-
+  stix2-misp2stix2. [Christian Studer]
+
+  fix: check Misp time fields exist before using them
+- Check time fields exist before using them. [Denny Lin]
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge pull request #6131 from JakubOnderka/toggle-correlation-speedup.
+  [Jakub Onderka]
+
+  chg: [internal] Faster generating correlations when enabling
+- Merge pull request #6135 from JakubOnderka/merge_show_event_preview.
+  [Jakub Onderka]
+
+  new: [UI] Show event preview when merging
+- Merge pull request #6065 from JakubOnderka/job-progress. [Jakub
+  Onderka]
+
+  chg: [internal] Better job progress and status logging
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge pull request #6099 from JakubOnderka/idn-support. [Jakub
+  Onderka]
+
+  new: [attribute] Add support for IDN domains
+- Merge pull request #6112 from JakubOnderka/attr-fetch-optim. [Jakub
+  Onderka]
+
+  Attr fetch optim
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge pull request #6119 from MISP/JakubOnderka-patch-1. [Jakub
+  Onderka]
+
+  fix: [UI] Show proper menu when editing event info
+- Additionnal protection against XSS, the response type defaults to html
+  while it should be JSON. (#6118) [Loïc Fortemps]
+- Merge pull request #6117 from JakubOnderka/delete-object-proposal.
+  [Jakub Onderka]
+
+  fix: [proposals] Delete proposals for object attributes
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #6116 from SteveClement/guides. [Steve Clement]
+- Merge branch 'guides' of github.com:SteveClement/MISP into guides.
+  [Steve Clement]
+- Merge pull request #6114 from JakubOnderka/remove-cidr. [Jakub
+  Onderka]
+
+  fix: [internal] Remove unused CidrComponent and CIDRTool classes
+- Merge pull request #5929 from JakubOnderka/fuzzy-purge. [Jakub
+  Onderka]
+
+  fix: [correlations] Purge ssdeep table after attribute delete
+- Merge pull request #6113 from JakubOnderka/freetext-fixes-vol2. [Jakub
+  Onderka]
+
+  chg: [freetext] Various code fixes and optimisations
+- Merge pull request #6085 from JakubOnderka/event_log_fix. [Jakub
+  Onderka]
+
+  fix: [audit] Show all attribute changes in event history
+- Merge pull request #6091 from JakubOnderka/existence-checking. [Jakub
+  Onderka]
+
+  fix: [internal] Do not check event existence twice
+- Merge pull request #6097 from JakubOnderka/freetext-fixes. [Jakub
+  Onderka]
+
+  fix: [freetext] Handle IPv6 and punycode domains when import
+
+
+v2.4.129 (2020-07-13)
+---------------------
+
+New
+~~~
+- [diag] Check if ZIP extension is installed. [Jakub Onderka]
+- [merge] functionality reworked. [iglocska]
+
+  - handle objects, tags, etc via @chrisr3d's module result parsing
+  - handle sharing groups correctly - as reported by Jakub Onderka
+  - using standardised fetchers internally
+  - API enabled (which will directly merge all contents of the source event into the target event)
+- [event block rule system] added. [iglocska]
+
+  - add simple tag filters to block events from being added.
+  - it will not stop a manual creation of an event with subsequent adding of the tag in a later stage
+  - it will however block synced events
+- [statistics] shell added for the git codebase's contributor counters.
+  [iglocska]
+
+  - to be extended with other similar tasks
+
+Changes
+~~~~~~~
+- [version] bump. [iglocska]
+- [stix2 library] Bumped latest version. [chrisr3d]
+- [UI] Add attribute fixes. [Jakub Onderka]
+- [misp-galaxy] updated to the latest version. [Alexandre Dulaunoy]
+- [misp-objects] updated to the latest version. [Alexandre Dulaunoy]
+- [correlations] Faster checking if CIDR is IPv4 or IPv6 version. [Jakub
+  Onderka]
+- [correlations] Just check if redis key exists. [Jakub Onderka]
+- [feed] Faster freetext feed caching. [Jakub Onderka]
+- [UI] Sort tags by name for server rules. [Jakub Onderka]
+- [internal] Use tmp file fro Feed::getCache. [Jakub Onderka]
+- [internal] Attribute REST search optimisations and error handling.
+  [Jakub Onderka]
+- [internal] Simplify and optimise eventUI method. [Jakub Onderka]
+- [warning-list] updated to the latest version. [Alexandre Dulaunoy]
+- [ACL] Allow to access to fetchOrgsForSG and fetchServersForSG just
+  with perm_sharing_group. [Jakub Onderka]
+- [users:resgister] Use the trimmed data instead. [mokaddem]
+- [stix2] Bumped latest python stix2 library. [chrisr3d]
+- [sightings] Check if sighting already exists before getting attribute
+  info. [Jakub Onderka]
+- [sightings] Save one SQL query when saving sighting if event UUID is
+  given. [Jakub Onderka]
+- [internal] Move getting sightings range to one place. [Jakub Onderka]
+- [internal] Faster loading sightings if the same attribute is
+  requested. [Jakub Onderka]
+- [statistics shell] added total commit count. [iglocska]
+
+Fix
+~~~
+- [installer] Update to latest. [Steve Clement]
+- [StixExport] suppress unlink warnings. [Richard van den Berg]
+- [stix export] log stack trace on error, support 'AMBER NATO ALLIANCE'
+  TLP tags. [Richard van den Berg]
+- [misp_retention] Support objects, use lists for build_complex_query()
+  [Richard van den Berg]
+- [attributes] Possible duplicate attributes. [Jakub Onderka]
+- [internal] Missing field for server model when editing event. [Jakub
+  Onderka]
+- [stix2 import] Fixed some object reference issues. [chrisr3d]
+
+  - With the newest PyMISP version, the object
+    references creation had to get some slight
+    changes:
+    - We add the referenced object in the event
+      before the add the reference between the 2
+      objects, when it is possible
+    - ** has been removed while calling add_object
+      since we are adding already verified MISP
+      objects, and using ** was actually the reason
+      why the references were not present in the
+      objects when they had been created before the
+      referenced object were added to the event
+- [stix2 import] Fixed Observable object type checking, following the
+  recent changes on the stix2 python library. [chrisr3d]
+- [stix upload] Removed 'isset' already tested with 'empty' at the same
+  place. [chrisr3d]
+- [stix2 import] Avoid duplication of original-imported-file objects
+  during the import process. [chrisr3d]
+
+  - Duplication can happen when the result of the
+    import process is an event that already exists
+- [security] setting a favourite homepage was not CSRF protected.
+  [iglocska]
+
+  - a user could be lured into setting a MISP home-page outside of the MISP baseurl
+  - switched the endpoint to be CSRF protection enabled
+
+  - as discovered by Mislav Božičević <mislav.bozicevic@nn.cz>
+- [opendata export] Fixed resource deletion query creation to avoid
+  silent syntax errors. [chrisr3d]
+- [stix] Store synonymsToTagNames.json file in tmp folder. [Jakub
+  Onderka]
+- [mail] Contacting only event creator. [Jakub Onderka]
+
+  Fix sending e-mails in Contact Reporter for when 'Submit only to the person that created the event' is checked
+- [mail] Contact reporter body. [Jakub Onderka]
+
+  Do not send that GPG or Public key are sent as attachment, when user don't have them
+- [proposals] re-edded the edit view for propsoals. [iglocska]
+- [security] Remove ShadowAttributesController::{getProposalsByUuid,getP
+  roposalsByUuidList} [Jakub Onderka]
+
+  These methods are not used, but they let sync users to access proposals for any event.
+- [security] Remove
+  ShadowAttributesController::{fetchEditForm,editField} [Jakub Onderka]
+
+  These methods are not used, but they allow to access attribute data without proper ACL checks.
+- [MispObject] Do not unpublish synced events, fixes #4838. [Richard van
+  den Berg]
+- [UI] Attribute category select. [Jakub Onderka]
+- [internal] Do not try to access bool as array. [Jakub Onderka]
+- [stix2 import] Better markings parsing for both created with MISP and
+  external STIX. [chrisr3d]
+- [stix2 export] Fixed Markings export following the recent changes on
+  ListProperty. [chrisr3d]
+- [sharingGroup:captureSharingGroup] Fix failing capture in case of
+  roaming mode. [mokaddem]
+
+  - The server list check was incorrect
+  - When capturing, roaming mode was always defaulted to false
+  - The logs could not be written due to non-initialized class
+- [acl] Added event block rule. [iglocska]
+- [security] Check event ACL before allowing user to send event contact
+  form. [Jakub Onderka]
+- [stix2 export] Fixed first_seen/last_seen field parsing. [chrisr3d]
+- [returnAttributes] remap small cleanup. [iglocska]
+
+  - no need to set xml as returnformat, it's the default based on the injected params
+- [security] deprecated function with lacking ACL removed. [iglocska]
+
+  - replaced deprecated, sharing group unaware, broken function with one that follows the documentation of the deprecated endpoint
+  - keeping it alive until we purge the deprecated ones in the move to MISP 3/next whatever
+
+  - Thanks to Jakub Onderka for reporting it!
+- [security] Insufficient ACL checks in the attachment downloader fixed
+  - Thanks to Jakub Onderka for reporting it. [mokaddem]
+- [tag:checkForOverride] Catch if tag didn't have a numerical value
+  before the override. [mokaddem]
+- [user:registration] Report field validations to the user. Fix #6072
+  and #6073. [mokaddem]
+- [stix2] Fixed conversion of object relations containing dots into
+  custom object values. [chrisr3d]
+
+  - Also includes changes to support the import of
+    custom objects into MISP objects containing
+    object relations with dots, to avoid issues or
+    changes on the mapping
+- [stix2] Fixed issue with custom object created from MISP object with
+  underscore in the name. [chrisr3d]
+
+  - Includes fix to export the objects into custom
+    objects, and to import custom objects into MISP
+    objects back
+  - Should fix #6046
+- [UI] Fetching from not enabled feed should be error. [Jakub Onderka]
+- [feed] Incorrect call in Feed::__saveEvent. [Jakub Onderka]
+- [internal] Do not create empty link for anonymized org sighting.
+  [Jakub Onderka]
+- [UI] Expanding attribute correlations on other pages. [Jakub Onderka]
+- [stix2 export] Fixed datetime issue with the 'created' field of some
+  stix objects. [chrisr3d]
+
+  - Following some changes on the python stix2
+    library, that caused an issue with the previous
+    way we created the 'created' field
+- [mail] Fix body of passwordReset/newUser emails. [Václav Bartoš]
+
+  When MISP sends an email with new credentials, the body is generated from one of the configured templates - passwordResetText or newUserText. However, these two templates were swapped - the newUserText was used for password reset, while passwordResetText was used when new account is created.
+
+  This commit fixes it.
+- [internal] HTML code fix. [Jakub Onderka]
+
+Other
+~~~~~
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #6110 from RichieB2B/ncsc-nl/unlink. [Andras
+  Iklody]
+
+  fix: [StixExport] suppress unlink warnings
+- Merge pull request #6109 from RichieB2B/nscc-nl/stixfix. [Andras
+  Iklody]
+
+  fix: [stix export] log stack trace on error, support 'AMBER NATO ALLI…
+- Merge pull request #6108 from RichieB2B/ncsc-nl/fix-retention. [Andras
+  Iklody]
+
+  fix: [misp_retention] Support objects, use lists for build_complex_qu…
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge pull request #6067 from JakubOnderka/fix-composite-type-
+  uniquenes. [Andras Iklody]
+
+  fix: [attributes] Possible duplicate attributes
+- Merge pull request #6069 from JakubOnderka/patch-119. [Andras Iklody]
+
+  fix: [internal] Missing field for server model when editing event
+- Merge pull request #6089 from JakubOnderka/add-attribute-ui-fixes.
+  [Andras Iklody]
+
+  chg: [UI] Add attribute fixes
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [Alexandre
+  Dulaunoy]
+- Merge pull request #6071 from JakubOnderka/patch-120. [Andras Iklody]
+
+  fix: [stix] Store synonymsToTagNames.json file in tmp folder
+- Merge pull request #6070 from JakubOnderka/cidr-correlation-optim.
+  [Andras Iklody]
+
+  Cidr correlation optim
+- Merge pull request #6036 from JakubOnderka/cache-freetext-feed-optim.
+  [Andras Iklody]
+
+  chg: [feed] Faster freetext feed caching
+- Merge pull request #6044 from JakubOnderka/sort-tags-by-name. [Andras
+  Iklody]
+
+  chg: [UI] Sort tags by name for server rules
+- Merge pull request #6035 from JakubOnderka/rest-search-optim. [Andras
+  Iklody]
+
+  chg: [internal] Attribute REST search optimisations and error handling
+- Merge pull request #5963 from JakubOnderka/patch-108. [Andras Iklody]
+
+  fix: [mail] Contact reporter body
+- Merge pull request #6092 from JakubOnderka/event-ui. [Andras Iklody]
+
+  chg: [internal] Simplify and optimise eventUI method
+- Merge pull request #6087 from JakubOnderka/zip-ext. [Andras Iklody]
+
+  new: [diag] Check if ZIP extension is installed
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch 'fix-sg-creation' into 2.4. [mokaddem]
+- Merge remote-tracking branch 'origin/2.4' into fix-sg-creation.
+  [mokaddem]
+- Merge pull request #6095 from JakubOnderka/shadow-attribute-unused-
+  vol2. [Andras Iklody]
+
+  fix: [security] Remove ShadowAttributesController::{getProposalsByUuid,getProposalsByUuidList}
+- Merge pull request #6093 from JakubOnderka/shadow-attribute-unused.
+  [Andras Iklody]
+
+  fix: [security] Remove ShadowAttributesController::{fetchEditForm,editField}
+- Merge pull request #6094 from RichieB2B/ncsc-nl/stop-loop. [Andras
+  Iklody]
+
+  fix: [MispObject] Do not unpublish synced events, fixes #4838
+- Merge pull request #6088 from JakubOnderka/patch-121. [Andras Iklody]
+
+  fix: [UI] Attribute category select
+- Merge pull request #6075 from JakubOnderka/bool-is-not-array. [Andras
+  Iklody]
+
+  fix: [internal] Do not try to access bool as array
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge pull request #6078 from JakubOnderka/fix-acl. [Andras Iklody]
+
+  chg: [ACL] Allow to access to fetchOrgsForSG and fetchServersForSG...
+- Merge pull request #6079 from legoguy1000/update_AuthkeyShell. [Andras
+  Iklody]
+
+  Allow you to mannually set the API key for automation purposes
+- Allow you to mannually set the API key for automation purposes. [Alex
+  Resnick]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #6077 from JakubOnderka/contact-acl. [Andras
+  Iklody]
+
+  fix: [security] Check event ACL before allowing user to send event contact form
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge pull request #6063 from JakubOnderka/patch-118. [Andras Iklody]
+
+  fix: [UI] Fetching from not enabled feed should be error
+- Merge pull request #6062 from JakubOnderka/feed-incorect-call. [Andras
+  Iklody]
+
+  fix: [feed] Incorrect call in Feed::__saveEvent
+- Merge pull request #6064 from obert01/fix-diag-accessibility. [Andras
+  Iklody]
+- Added proper ARIA properties for the "fix" button in the DB index and
+  DB schema diagnostic tables. [Olivier BERT]
+- Merge pull request #6061 from JakubOnderka/list-sightings-ui. [Andras
+  Iklody]
+
+  fix: [internal] Do not create empty link for anonymized org sighting
+- Merge pull request #6060 from JakubOnderka/correlation-expand-fi.
+  [Andras Iklody]
+
+  fix: [UI] Expanding attribute correlations on other pages
+- Ch: Bump warninglists. [Raphaël Vinot]
+- Ch: Bump misp-objects. [Raphaël Vinot]
+- Merge pull request #5985 from vaclavbartos/2.4. [Andras Iklody]
+
+  fix: [mail] Fix body of passwordReset/newUser emails
+- Merge pull request #6026 from JakubOnderka/save-sightings-
+  optimisation. [Andras Iklody]
+
+  Save sightings optimisation
+- Merge pull request #6043 from StefanKelm/2.4. [Andras Iklody]
+
+  Update side_menu.ctp
+- Update side_menu.ctp. [StefanKelm]
+
+  Adjusts menu to be in line with "Global Actions"
+- Merge pull request #6045 from JakubOnderka/sightings-loading-optim.
+  [Andras Iklody]
+
+  chg: [internal] Faster loading sightings if the same attribute is req…
+- Merge pull request #6049 from JakubOnderka/patch-116. [Andras Iklody]
+
+  fix: [internal] HTML code fix
+
+
+v2.4.128 (2020-06-22)
+---------------------
+
+New
+~~~
+- [correlations] Enable CIDR correlations for ip-src|port and ip-
+  dst|port types. [Jakub Onderka]
+
+Changes
+~~~~~~~
+- [version] bump. [iglocska]
+- [PyMISP] Bump. [Raphaël Vinot]
+- [stix2 import] Parsing external pattern made with 'OR' separators the
+  same way we do for pattern with 'AND' [chrisr3d]
+
+  - Also slight update of some mapping dictionaries
+    to go with the changes introduced with this
+    commit on the main script
+- [stix2 tests] Bumped the latest MISP & STIX2 test files. [chrisr3d]
+- [correlations] Faster IPv4 CIDR correlation. [Jakub Onderka]
+- [correlations] Faster IPv6 correlation. [Jakub Onderka]
+- [correlations] Big speedup when correlating CIDR. [Jakub Onderka]
+- [widget] remove unused var, make test pass. [Jean-Louis Huynen]
+- [stix2 import] Moved all the mapping dictionaries to the mapping
+  script. [chrisr3d]
+- [stix2 import] Temporary rework stix2 to misp script should now be
+  ready to replace the original stix2 to misp script. [chrisr3d]
+- Bump PyMISP. [Raphaël Vinot]
+- [stix2 import] Better parsing for patterns we always import as single
+  attributes. [chrisr3d]
+- [stix2 import] Generic way of dealing with payloads in external file &
+  artifact patterns. [chrisr3d]
+
+  - After struggling a lot with the different use
+    cases, we ended up with the following process:
+      - checking if any file:content_ref is there
+        and grouping the content refs features
+        together if possible
+      - After all the content refs have been parsed,
+        we check if there still is some payloads
+- [stix2 export] Moved the Attributes parsing functions into the main
+  script. [chrisr3d]
+
+  - Also checked the mapping to find potential bugs,
+    and fixed/updated some fields (in observed-data
+    and indicators)
+- [stix2 import] Observable single attributes parsing functions are now
+  in the main script. [chrisr3d]
+
+  - Also update of the mapping dictionary with the
+    latest updated functions moved from the mapping
+    script to the main script
+- [stixtest] JQing MISP event result from a STIX import for more visual
+  ease. [chrisr3d]
+- [stix1 import] Better parsing of ttps, threat actors & courses of
+  action. [chrisr3d]
+- [stixtest] Updated the STIX1 test files following the changes on the
+  test MISP events. [chrisr3d]
+- [stixtest] Updated stix2 test files with the most recent changes on
+  the related MISP events, and on the export script. [chrisr3d]
+- [stixtest] Test MISP events up-to-date. [chrisr3d]
+- [stix2 export] Exporting Course of Action object attributes as custom
+  properties if not supported. [chrisr3d]
+- [stix2] Bumped latest stix2 python library. [chrisr3d]
+- [stixtest] Updated the stix1 test files. [chrisr3d]
+- [stix1 export] Exporting Galaxies per TTP, Threat Actor or COA.
+  [chrisr3d]
+
+  - Exporting each galaxy as one TTP, Threat Actor,
+    or Course of Action instead of exporting each
+    Galaxy Cluster individually
+  - All clusters of a same galaxy are exported in
+    the same TTP, Threat Actor or Course of Action
+- [stix2 import] Mapping galaxy cluster names with their corresponding
+  tag names. [chrisr3d]
+
+  - We map existing cluster names with the json file
+    of synonyms mapped with tag names generated by
+    MISP and introduced in the latest commit
+  - If there is not association, we just add a tag
+    looking like a galaxy tag name. The difference
+    is this tag will not be recognized as a proper
+    galaxy tag name and will stay as a tag
+- [stix import] Passing a mapping of cluster name with tag names as
+  parameter of the import scripts. [chrisr3d]
+
+  - We map GalaxyCluster names and synonyms with the
+    associated tag names
+  - This mapping will be used in the python stix 1&2
+    import scripts so they can return the correct
+    tag names about galaxies
+
+Fix
+~~~
+- [stix2 import] Quick issues fixing. [chrisr3d]
+
+  - Fixed issue that could happen sometimes during
+    an external pattern parsing when we split the
+    identifier of the pattern from the value.
+    We now make sure the identifier is stripped, so
+    we avoid issues with the mapping dictionaries
+    that could not recognize it
+  - Also displaying  a warning message when we have
+    no attributes resulting from the parsing of an
+    external pattern or observable object
+- [stix2 import] Small update on the mapping to work with some external
+  patterns seen recently. [chrisr3d]
+- [stix2 import] Fixed some external observable objects import.
+  [chrisr3d]
+- [stix2 import] Fixed no longer existing variable in the mapping
+  script. [chrisr3d]
+- [stix2 import] Added the function to parse external email-address
+  observable objects, that was missing. [chrisr3d]
+- [UI] Typo. [Jakub Onderka]
+- [stix2 import] Better way of parsing some attributes and objects.
+  [chrisr3d]
+
+  - For single attributes that could be part of an
+    object and would lose some context if imported
+    as single attribute without their object
+    relation (mostly attributes of type 'text'),
+    we decide to import them as object anyway to
+    avoid the increase of context-less attributes
+  - Also cleaner way to parse observable objects and
+    patterns that will alwyas give single attributes
+- [stix2 export] Typo in variable name. [chrisr3d]
+- [stix2 export] Reverted the email object attribute 'from' export as
+  observable object. [chrisr3d]
+
+  - From-ref is always a single value, we cannot use
+    a list of references
+- [stix2 export] Fixed email object attributes export into pattern.
+  [chrisr3d]
+- [stix2 export] Avoiding issues with attributes with no Galaxy field.
+  [chrisr3d]
+- [stix2 export] Fixed x509 object export. [chrisr3d]
+
+  - x509 fingerprint hashes parsing was pointing to
+    a part of a mapping dict which does not exist
+- [stix2 import] Fixed external pattern parsing for pe section
+  attributes. [chrisr3d]
+
+  - As an example, instead of storing the full
+    pattern identifiers, like:
+    "file:extensions.'windows-pebinary-ext'.section.name"
+    we only store what is usefull (name) for the
+    parsing part where we check the mapping dict
+    to find the corresponding attribute type and
+    object_relation
+- [stix2 import] Importing external vulnerabilities as single attribute
+  or object depending on the case. [chrisr3d]
+
+  - In other words, we made available the import of
+    vulnerabilities as single attributes when only
+    a name is present in the STIX object
+  - Was only importing vulnerability objects before,
+    which does not change if there is more than only
+    the name within the STIX vulnerability object
+- [stix2 import] Removed unused variable that was used for debug
+  purposes. [chrisr3d]
+- [stix2 import] Cleaner autonomous system observable import. [chrisr3d]
+
+  (for STIX documents generated with MISP)
+- [stix2 import] Parsing timeline features on single attributes.
+  [chrisr3d]
+
+  - As it is parsed for imported objects
+  - It adds timestamp, first_seen & last_seen values
+    on single attributes accordingly
+- [stix2 import] Fixed email reply-to single attribute import.
+  [chrisr3d]
+- [stix2 import] Fixed payload_bin import into single MISP attribute.
+  [chrisr3d]
+- [stix2 export] Fixed email-reply-to export in observable object.
+  [chrisr3d]
+- [stix2 export] Removed unused import. [chrisr3d]
+- [stix2 import] Importing PyMISP from the submoduled library.
+  [chrisr3d]
+
+  - As it is in the currently used stix2 import
+    script which is going to be replaced by this one
+  - Avoids issues when the python library is not
+    installed with pip
+- [stix2 import] More generic network-traffic references parsing.
+  [chrisr3d]
+
+  - Also fixing some edge cases of reference parsing
+    with the wrong mapping
+    (network_traffic_references_mapping no longer exists)
+- [stix2 import] Fixed single attributes import following changes on the
+  export part. [chrisr3d]
+- [stix2 export] Making sure we have the required name field set while
+  exporting regkey values from a MISP regkey object to a STIX observed
+  data. [chrisr3d]
+- [stix2 export] Fixed regkey|value expor. [chrisr3d]
+
+  - Revert to the initial mapping that has been
+    changed to the wrong field: the value should be
+    mapped to the data field and instead of name
+- [stix2 export] Removed unused mapping dictionary fields. [chrisr3d]
+- [stix2 export] Removed object attributes added in file patterns for
+  test purposes. [chrisr3d]
+- [stix2 export] Removed object attributes added for test purposes.
+  [chrisr3d]
+- [stix2 import] Writing import results as expected in the result file.
+  [chrisr3d]
+- [stix2 import] Fixed relationships parsing. [chrisr3d]
+
+  - Using iterators is good for a single iteration,
+    but not for more, including an if test
+  - Using tuples instead is better and avoids then
+    losing our relationships
+- [stix1 import] Better parsing of malware instances within ttps.
+  [chrisr3d]
+
+  - In some cases when malware instances within ttps
+    do not have a title but one or more name(s), we
+    need to use them instead of the title
+- [stix1 import] Fixed malware instance parsing. [chrisr3d]
+- [stix2 import] Typo. [chrisr3d]
+- [stix2 test] Typo. [chrisr3d]
+- [stix2 import] Handling external STIX file pattern properly.
+  [chrisr3d]
+
+  - If there is no extension (case which has been
+    fixed in the few last commit), we need to check
+    if we have to create a MISP attribute or object
+  - We then check if we exctracted one attribute
+    from the pattern or more, and create respectively
+    a MISP attribute or object
+- [stix2 import] Fixed monkey issues... [chrisr3d]
+- [stix2 import] Using the expected parameters to handle the file, pe &
+  sections objects. [chrisr3d]
+- [stix1 import] Some quick fixes on MISP objects parsing. [chrisr3d]
+
+  - Better handling on MISP object name parsing
+  - Importing properly MISP object uuid for course
+    of action objects
+- [stix2 import] Importing event uuid from report. [chrisr3d]
+
+  - The event uuid is set when there is one report
+- [stix2 import] Fixed timestamp parsing following the latest changes on
+  STIX2 export. [chrisr3d]
+- [stix2 import] Fixed timestamp parsing. [chrisr3d]
+
+  - Fixed timestamp parsing of custom objects
+- [stix2 import] Fixed attack-pattern & course-of-action object
+  attributes parsing. [chrisr3d]
+
+  - Avoids setting the ids flag to false when object
+    attributes do not come from an observable object
+- [stix2 import] Fixed attack-pattern external_references parsing.
+  [chrisr3d]
+- [stix2 export] Fixed attack-pattern object export. [chrisr3d]
+
+  - Fixed the id attribute export
+  - Supporting expport of the newest 'references'
+    attribute added to the object template
+- [stix2 import] Fixed file objects import. [chrisr3d]
+
+  - As it has been updated for file objects export,
+    we now better support potential multiple fields
+    like filename, path and fullpath
+  - Also handling properly the special case of a
+    file object with an extension field
+- [stix2 export] Fixed special case of file with a path property and a
+  PE extension. [chrisr3d]
+
+  - If a file object had a path property and a PE
+    extension, the extension could be added to the
+    wrong part of the observable object
+  - We make sure here the extension is attached to
+    the observable object related to the file, and
+    not to the directory referenced by the file as
+    its path
+- [stix2 export] Fixed files objects export (patterns & observable
+  object) [chrisr3d]
+
+  - Better handling of the data field for attributes
+    like malware-sample and attachment
+  - Support of path & fullpath attributes export
+  - Better handling of potential multiple attributes
+    like filename, path and fullpath
+- [stix2 export] Fixed artifact name export in pattern as custom
+  property. [chrisr3d]
+- [stix2 export] Fixed x509-fingerprint-sha1 single attribute export.
+  [chrisr3d]
+- [stix2 export] Fixed regkey|data attribute export. [chrisr3d]
+- [stix2 import] Fixed regkey values observable objects parsing.
+  [chrisr3d]
+- [stix2 import] Fixed & cleaned network traffic objects. [chrisr3d]
+- [stix2 export] Fixed reference typo in network traffic pattern.
+  [chrisr3d]
+- [stix2 import] Passing mapping variable name instead of the
+  dictionary. [chrisr3d]
+
+  - For all the generic parsing functions, we pass
+    the mapping variable name and get the attribute
+    afterwards instead of passing the dictionary
+- [stix2 import] Fixed some observable and pattern parsing issues.
+  [chrisr3d]
+
+  - Quick custom property in pattern parsing fixed
+  - Fixed file and network socket observable objects
+    parsing
+- [stix2 export] Fixed SocketExt properties exceptions catching.
+  [chrisr3d]
+
+  - address_family is a required property, thus we
+    need to handle it separately
+  - protocol_family is optional and thus easier to
+    handle
+- [stix2 import] Some patterns import fixed. [chrisr3d]
+
+  - AS attribute in asn object is now imported with
+    the 'AS' prefix
+  - Importing properly attachment attributes in file
+    objects
+  - pe mapping enhanced
+- [stix2 export] Fixed file & vulnerability patterns export. [chrisr3d]
+- [stix2 import] Fixed malware sample import in file objects. [chrisr3d]
+- [stix2 export] Fixed custom properties for vulnerability and attack
+  pattern objects. [chrisr3d]
+
+  - Dashes ('-') in object relations should be
+    replaced by underscores as custom properties
+    only accept underscores
+- [stix2 export] Better file objects export and joining patterns from
+  list instead of concatenating strings. [chrisr3d]
+- [stix2 import] Better import for some objects. [chrisr3d]
+
+  - Support of custom properties that are lists
+  - Support of protocol attribute in network socket
+    object
+  - Support of group attribute in user account
+    object
+- [stix2 export] Better export for object attributes of vulnerability
+  and attack pattern objects. [chrisr3d]
+
+  - Need to use custom properties in some cases
+- [stix2 import] Importing pe attributes from patterns within the pe
+  object and not in the file object. [chrisr3d]
+- [stix2 import] Fixed file pattern import. [chrisr3d]
+- [stix2 import] Better network connection patterns parsing. [chrisr3d]
+- [stix2 export] Fixed export of port attribute in network traffic
+  patterns. [chrisr3d]
+- [stix2 export] Fixed network traffic references in patterns.
+  [chrisr3d]
+- [stix2 import] Fixed network socket pattern values parsing. [chrisr3d]
+
+  - We do not want to import the single quotes that
+    are all around the pattern values
+- [stix2 export] Exporting TLP tags as marking definition. [chrisr3d]
+
+  - Marking definition in the case of TLP was
+    missing and only the reference to the marking
+    definition was exported, but not the actual
+    marking definition object
+- [stix2 import] Fixed MISP Object creation. [chrisr3d]
+
+  - MISP Object creation function used for attack
+    pattern & course of action objects, so they get
+    the correct uuid
+  - MISP Object creation trying to parse the first
+    seen & last seen values without raising issues
+    when the object parsed does not have any
+- [stix2 export] Fixed file content ref for malware sample exports.
+  [chrisr3d]
+- [stix2 export] Fixed email attachment export. [chrisr3d]
+- [stix2 export] Exporitng process attributes in patterns as intended.
+  [chrisr3d]
+
+  - Handling the child ref(s), parent ref, and image
+    name values in process patterns
+- [stix1 import] Parsing COA_Taken objects as MISP object. [chrisr3d]
+- [stix1 export] Exporting category and value in STIX objects title and
+  not the attribute/object id. [chrisr3d]
+- [stix1 export] No longer exporting object IDs. [chrisr3d]
+
+  - ThreatActors and TTPs titles only use categories
+    and values of the attribute/object to define the
+    title, and not the attribute/object id anymore
+- [stix1 export] Various fixes. [chrisr3d]
+
+  - Got rid of some variables and calling some
+    functions directly to parse data withtout
+    storing it
+  - TTPs, Courses of action and Threat Actors are
+    now referenced in related objects only when they
+    come from attributes/objects in MISP and not
+    when they come from galaxies
+- [stix1 export] Tiny fixes. [chrisr3d]
+
+  - Making sure adding an indicator type fails
+    because of the mapping between attribute types
+    and indicator types does not support a specific
+    type, and not because of the indicator not
+    accepting the type we want it to have
+  - Making sure CAPEC IDs are always starting with
+    'CAPEC' in the AttackPattern objects we create
+- [stix1 export] Fixed email attachment related objects uuid. [chrisr3d]
+
+  - Email message related objects representing the
+    email attachments now have the correct uuid of
+    the attachment attribute
+  - Before, a random uuid was used, due to the file
+    object losing its parent properties while being
+    switched from a File object type to a related
+    object type
+- [stix1 export] Referencing COAs as RelatedCOAs. [chrisr3d]
+- [stix1 export] Removed function no longer used. [chrisr3d]
+- [stix1 export] Export only cluster values as name or title. [chrisr3d]
+
+  - No longer exporting the Galaxy name within the
+    name or title, since we have this information
+    somewhere else and the name or title should
+    only be the Galaxy cluster name value
+- [stix import] Some strings are defined in a cleaner way. [chrisr3d]
+- [stix2 import] Skipping adding Galaxy info in the Galaxy field and
+  only importing it as tag. [chrisr3d]
+- [ACL] unpublished_private global setting tightened to include
+  correlations. [iglocska]
+
+  - Thanks to Jakub Onderka for reporting and providing a fix to this!
+- [security] missing ACL lookup on attribute correlations. [iglocska]
+
+  - attribute correlation ACL checks are skipped when querying the attribute restsearch API revealing metadata about a correlating but unreachable attribute.
+
+  - Thanks to Jakub Onderka for his tireless work and for reporting this!
+
+Other
+~~~~~
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch 'rework_stix' into 2.4. [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge pull request #6028 from JakubOnderka/patch-115. [Andras Iklody]
+
+  fix: [UI] Typo
+- Merge pull request #6022 from MISP/rework_stix. [Andras Iklody]
+
+  STIX parsing updates
+- Cleanup: [stix] Cleaned up the recently changed scripts. [chrisr3d]
+
+  Including:
+  - Removed some unused imports and variable
+  - Renamed some variable which could have been
+    built-in methods redefinition
+  - Typos
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge pull request #5916 from JakubOnderka/patch-100. [Andras Iklody]
+
+  chg: [correlations] Big speedup when correlating CIDR
+- Merge pull request #6019 from D4-project/2.4. [Andras Iklody]
+
+  add [widget] Authentication failure widget
+- Add [widget] Authentication failure widget. [Jean-Louis Huynen]
+- Wip: [stix2 import] More complete external patterns mapping.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Importing external domain, ip & network traffic
+  patterns. [chrisr3d]
+- Wip: [stix2 import] Importing external network traffic patterns.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Importing external email patterns. [chrisr3d]
+
+  - Parsing function to split attachments fields
+    from all the other fields already implemented,
+    we just added the attachment parsing and the
+    attributes handling at the end
+  - Also slight fixes on the from, to and cc refs
+    following the last fix on the export side
+- Wip: [stix2 import] Handling import case for indicators of which we
+  already parsed the pattern. [chrisr3d]
+- Wip: [stix2 import] Importing external process indicators. [chrisr3d]
+- Wip: [stix2 import] Importing external url indicator based on the
+  pattern mapping already implemented. [chrisr3d]
+
+  - tl;dr: We just took the parsed attributes and
+    callled the appropriate function to handle the
+    import case (attribute or object)
+- Wip: [stix2 import] Importing external user-account indicators.
+  [chrisr3d]
+
+  - Also fixed some user-account and credential
+    mapping dictionaries
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Fix"[stix2 import] Fixed process observable objects parsing for STIX
+  documents generated with MISP. [chrisr3d]
+
+  - Little typo and copy-paste issue
+- Wip: [stix2 import] Parsing external process observable objects.
+  [chrisr3d]
+
+  - Also changed parsing of process observable
+    objects from STIX documents generated with MISP
+    to apply the same logic to both use cases
+- Wip: [stix2 import] Parsing external user_account observable objects.
+  [chrisr3d]
+
+  - Mapping into credential or user-account MISP
+    objects depending on the case
+- Wip: [stix2 import] Finally parsing properly external network traffic
+  observable objects with their references and potential extensions.
+  [chrisr3d]
+
+  - After struggling a lot on it, we ended up
+    parsing external network traffic observable
+    objects independently depending on the actual
+    references they have or not
+  - Chosing this approach instead of the common
+    parsing function handling the different use
+    cases, we can parse each observable object
+    depending on the case, and use common function
+    then when we are sure we determined the actual
+    situation
+  - We no longer start from a common function trying
+    to determine the case using lots of tests, we
+    already know which case it is and go to the
+    common point afterwards
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Network traffic references parsing function for
+  further reuse. [chrisr3d]
+- Wip: [stix2 import] Importing external autonomous system observable
+  objects. [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Importing external x509 observable objects.
+  [chrisr3d]
+- Wip: [stix2 import] Importing mac-address external observable objects.
+  [chrisr3d]
+
+  - Also changed the recently changed mutex import
+    to reuse a function to parse all observable
+    objects of an observed-data object at once to
+    import single attributes
+- Wip: [stix2 import] Importing external mutex observable objects.
+  [chrisr3d]
+
+  - Also change on a function name for more clarity
+    and to differenciate more easily functions for
+    observable objects and patterns
+- Wip: [stix2 import] Importing external registry-key observable
+  objects. [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Updated external observable mapping: files with
+  artifact & directory references. [chrisr3d]
+
+  - The parsing logic is already there since files
+    with artifact references and files with directory
+    references are supported. We just updated here
+    the mapping dictionary
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Importing external url observable objects.
+  [chrisr3d]
+- Wip: [stix2 import] Added warning message if not all the observable
+  objects are referenced by an email-message object. [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Import of external email message & address
+  observable objects. [chrisr3d]
+
+  - Reuse of some parsing functions for external and
+    MISP generated STIX files
+  - Added an email references mapping dict to help
+    parsing email addresses, body & content refs
+    references by email message objects
+  - Fixed another indentation issue
+- Wip: [stix2 import] Import of domain and ip observable objects.
+  [chrisr3d]
+
+  - Also quick indentation fix
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Import of network-traffic and ip external
+  observable objects. [chrisr3d]
+
+  - Ongoing rework for external observable objects
+    and patterns in progress
+- Wip: [stix2 import] Import of external file observable objects.
+  [chrisr3d]
+
+  - Support of PE extension to create PE object(s)
+    with the corresponding section(s) alongside the
+    file object import
+  - As always with pe and sections, the appropriate
+    references are added too
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Starting parsing external observable objects.
+  [chrisr3d]
+
+  - Started with file observables
+  - Making 'filter_main_object' function available
+    for both subclasses to split the observable
+    object type we want and all the references
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Struggling with the files and payloads import.
+  [chrisr3d]
+- Wip: [stix2 import] Removed unused mapping dict + moved constant to
+  the mapping script. [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 export] Moved dictionaries in the mapping file & using the
+  complete import path instead of import * from the mapping file.
+  [chrisr3d]
+
+  - We control and know which mapping dictionary we
+    call and that they come from the mapping script
+  - Started moving all the mapping dictionaries in
+    the mapping file
+  - Attributes parsing function will be moved into
+    the main script
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Moving small parsing functions to the main script.
+  [chrisr3d]
+
+  - Also passing the function names only instead of
+    storing functions themselves in the dictionary
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Parsing single external IP v4 or v6 address.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Parsing external relationships, galaxies, tags &
+  reports. [chrisr3d]
+
+  (+ Quick fix on internal tags handling)
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Add: [stix2test] New argument to evaluate events using filenames only
+  and avoid to query MISP. [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Handling File objects with PE extension &
+  sections. [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Separating file extensions to be parsed later.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Better attack-pattern external references parsing
+  + parsing external galaxies. [chrisr3d]
+- Wip: [stix2 import] Parsing attack-pattern, course-of-action and
+  vulnerability objects from external stix files. [chrisr3d]
+- Wip: [stix2 import] Making difference between external and from MISP
+  for some STIX object types. [chrisr3d]
+
+  - Including Attack Pattern, Course of Action and
+    Vulnerability
+  - Also better file pattern parsing
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Better parsing for more external patterns.
+  [chrisr3d]
+- Wip: [stix2 import] Some more external pattern mapped. [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Starting parsing external patterns. [chrisr3d]
+- Wip: [stix2 import] Some quick clean-up. [chrisr3d]
+
+  - Preparing for the future 2.1 import
+  - Removing mapping variables no longer used
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Importing reports external references as links.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Proper parsing of galaxies, and tags. [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into rework_stix.
+  [chrisr3d]
+- Wip: [stix2 import] Loading relationships in a dictionary. [chrisr3d]
+
+  - Thus we can parse them afterwards depending on
+    the type of objects they put into relationship
+- Wip: [stix2 import] Properly loading galaxies as tags. [chrisr3d]
+- Wip: [stix2 import] Import of CourseOfAction, AttackPattern and
+  Vulnerability as objects reworked. [chrisr3d]
+- Wip: [stix2 export] Defining relationships between observed-data and
+  galaxy objects. [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Wip: [stix2 import] Updated mapping library + removed
+  disable_correlation flags. [chrisr3d]
+
+  - Since we use the object templates directly for
+    the objects creation, we do not need to have
+    the flag here.
+- Wip: [stix2 import] Observable import rework completed. [chrisr3d]
+- Wip: [stix2 import] Process observables import reworked. [chrisr3d]
+- Wip: [stix2 import] More observable objects reworked. [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Wip: [stix2 import] User Account objects import reworked. [chrisr3d]
+- Wip: [stix2 import] ASN observable import reworked + functions
+  ordered. [chrisr3d]
+- Wip: [stix2 import] Credential observable import + standard observable
+  parsing function reworked. [chrisr3d]
+- Wip: [stix2 import] Network socket import reworked. [chrisr3d]
+- Wip: [stix2 import] Import of network connection objects from
+  observable. [chrisr3d]
+- Wip: [stix2 import] Started reworking observable objects import.
+  [chrisr3d]
+- Wip: [stix2 import] All known MISP objects mapped with STIX patterning
+  are now reworked. [chrisr3d]
+- Wip: [stix2 import] Email pattern import. [chrisr3d]
+- Wip: [stix2 import] File patterns import reworked. [chrisr3d]
+- Wip: [stix2 import] Cleaner pattern import into objects. [chrisr3d]
+- Add: [stix2 export] Exporting process image attribute in observable
+  objects. [chrisr3d]
+- Wip: [stix2 import] Reworking stix2 import. [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+- Add: [stix1 export] Added malpedia in the list of mapped galaxies.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into 2.4.
+  [chrisr3d]
+
+
+v2.4.127 (2020-06-16)
+---------------------
+
+New
+~~~
+- [cli] Command for pulling from all remote servers. [Jakub Onderka]
+- [Tag] Allow Tag's numerical_values to be overriden by userSettings.
+  [mokaddem]
+- [userSettings] New setting `default_restsearch_parameters` [mokaddem]
+
+  It allows users to supply restSearch parameters that will be injected
+  (and possibly overridden) into the restSearch filters.
+- [type] git-commit-id. [Raphaël Vinot]
+- [UI] Add event ID to page table. [Jakub Onderka]
+
+  With more tabs, navigation between tabs with different events can be pain, when all of them has the same title.
+
+Changes
+~~~~~~~
+- [PyMISP] Bump. [Raphaël Vinot]
+- [version] bump. [iglocska]
+- [internal] Log exception if exception is thrown during event
+  downloading. [Jakub Onderka]
+- [misp-warninglists] updated to the latest version. [Alexandre
+  Dulaunoy]
+- [misp-galaxy] updated to the latest version. [Alexandre Dulaunoy]
+- [submodules] Use repository default branch (main) [Raphaël Vinot]
+- [PyMISP] Rename branch master -> main. [Raphaël Vinot]
+- [misp-taxonomies] updated to the latest version. [Alexandre Dulaunoy]
+- [misp-warninglists] updated to the latest version. [Alexandre
+  Dulaunoy]
+- [internal] Bump CakePHP to 2.10.22. [Jakub Onderka]
+- [internal] Drop
+  correlations.{org_id,sharing_group_id,a_sharing_group_id} indexes.
+  [Jakub Onderka]
+- [internal] Drop correlations.value index. [Jakub Onderka]
+- [taxonomies] updated to the latest version. [Alexandre Dulaunoy]
+- [internal] Log exception when querying modules. [Jakub Onderka]
+- [decayingModel:listTaxoWithNumericalValue] Cleaner usage of uppercased
+  tag. [mokaddem]
+- [taxonomy] Fixed typo. [mokaddem]
+- [UI] Make Enrichment Results little bit nicer. [Jakub Onderka]
+- [events:distributionGraph] Added close button in popover. Fix #5978.
+  [mokaddem]
+- [misp-objects] updated to the latest version. [Alexandre Dulaunoy]
+- [tags:checkForOverride] Do not duplicate user id variable. [mokaddem]
+- [tools] re-add fixed module. [Steve Clement]
+- [misp-objects] updated to the latest version. [Alexandre Dulaunoy]
+- [decaying] `last_seen` takes precedence over `timestamp` [mokaddem]
+
+  If `last_seen` is set, it will take precedence over the timestamp if no
+  sightings have been recorded.
+  By doing so, we prevent the score to be refreshed if the attribute is
+  slightly modified (a tag is added/removed)
+- [misp-objects] updated to the latest version. [Alexandre Dulaunoy]
+- [misp-galaxy] updated to the latest version. [Alexandre Dulaunoy]
+- [usernamehelper] cheese. [iglocska]
+- [PyMISP] Dump. [Raphaël Vinot]
+- [correlation] When generating correlation, just fetch attributes that
+  can correlate. [Jakub Onderka]
+- [correlations] Refactored correlation saving. [Jakub Onderka]
+
+  * Always show other correlating value (useful for CIDR correlations)
+  * Make correlation saving faster (move more work to database, do not fetch not necessary fields)
+  * Fix some small bugs
+- [doc] Updates to OpenBSD Install (which fails ATM) [Steve Clement]
+- [doc] Variable updates. [Steve Clement]
+- [doc] Reshuffled docs. [Steve Clement]
+- [doc] Update to OpenBSD 6.7. [Steve Clement]
+- [cakephp] bump. [iglocska]
+
+  - updates cakephp to include the UUID generation fix by @RichieB2B to solve the deficiency discovered by @JakubOnderka. You guys rock.
+- [internal] Faster removing galaxy cluster tags from attributes. [Jakub
+  Onderka]
+- [UI] Nicer icon for form info. [Jakub Onderka]
+- [misp-galaxy] updated to the latest version. [Alexandre Dulaunoy]
+- [installer] Updated to latest Installer. [Steve Clement]
+- [var] Wrapped vars {} - Made loops around git clones (for ctrl-c
+  resumeability) [Steve Clement]
+- [galaxy] bump. [iglocska]
+- [feed] Provide more info when caching feeds about failures. [Jakub
+  Onderka]
+- [warning-lists] updated to the latest version. [Alexandre Dulaunoy]
+
+Fix
+~~~
+- [UI] Double Discussion header when sending comment. [Jakub Onderka]
+- [internal] object level restsearch issues resolved when querying via
+  filters on the attribute scope, fixes #6016. [iglocska]
+
+  - use subqueries instead of trying to query on the current scope
+  - associated find queries don't work on habtm relationships
+- [pull] Correct progress for pull job. [Jakub Onderka]
+- [internal] Removing attributes from empty event. [Jakub Onderka]
+- [feeds:saveFreetext] Soft-delete Attributes when performing a delta-
+  merge. [mokaddem]
+- [EventShell:enrichment] Improved reporting of error messages.
+  [mokaddem]
+- [users:change_pw] Return error message when trying to use the same
+  password. Fix #5961. [mokaddem]
+- [galaxy] Fetch all events for galaxy cluster. [Jakub Onderka]
+- [UI] Show feed caching just for site admins. [Jakub Onderka]
+
+  Without this patch, when user is not site admin, for all feeds is showed 'Not cached', that is not true. And it also generates a lot of warnings to debug log.
+- [www] webserver user is www on OpenBSD. [Steve Clement]
+- [attribute:fetchAttribute] Prevent notices if tags not set while
+  computing decay. [mokaddem]
+- [internal] Remove unused method. [Jakub Onderka]
+- [UI] Module diagnostic colors. [Jakub Onderka]
+- [attribute] Do not allow for IPv4 CIDR masklen bigger than 32. [Jakub
+  Onderka]
+- [internal] Notices in PHP 7.4 for login page. [Jakub Onderka]
+- [UI] Bootstrap 2 doesn't support auto position for popover. [Jakub
+  Onderka]
+- [internal] Fix notice in PHP7.4 when loading events attrs by ajax.
+  [Jakub Onderka]
+- [internal] Branch setting don't have level value. [Jakub Onderka]
+- [internal] Remove duplicate code that cause error in PHP 7.4. [Jakub
+  Onderka]
+- [internal] Check if user is logged before checking if he is site
+  admin. [Jakub Onderka]
+- [internal] Set notifications count and loggedInUserName just for
+  logged users. [Jakub Onderka]
+- [documentation] Typo with the CLI function name. Fix #5931. [Sami
+  Mokaddem]
+- [UI] Do not show Good-Bye when using custom logout. [Jakub Onderka]
+
+  Becuse without this patch, Good-Bye is show when user successfully log in.
+- [UI] Galaxy cluster links should be clickable. [Jakub Onderka]
+- [whitelist] Correclty refresh the cached values. Fix #3772. [mokaddem]
+
+Other
+~~~~~
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [Raphaël Vinot]
+- Merge pull request #5992 from JakubOnderka/download-event-log-
+  exception. [Andras Iklody]
+
+  chg: [internal] Log exception if exception is thrown during event dow…
+- Merge pull request #6017 from JakubOnderka/patch-114. [Andras Iklody]
+
+  fix: [UI] Double Discussion header when sending comment
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #6015 from GlennHD/patch-2. [Andras Iklody]
+
+  Removed hosts-file.net feeds from default feeds
+- Removing hosts-files.net files. [GlennHD]
+
+  Malwarebytes has discontinued the feed:  https://forums.malwarebytes.com/topic/258056-hosts-filenet-domain-lists-are-broken-what-happened/
+- Merge pull request #5993 from JakubOnderka/pull-progress. [Andras
+  Iklody]
+
+  fix: [pull] Correct progress for pull job
+- Merge pull request #6007 from imidoriya/2.4. [Andras Iklody]
+
+  Fix issue #6006 - sgsids is never set
+- Fix issue #6006 - sgsids never set. [deku]
+
+  This value is never set.  I expect it should be $sgids from the incoming function variable.
+- Merge pull request #5990 from cudeso/2.4. [Alexandre Dulaunoy]
+
+  Dashboard widgets
+- Avoid us of extra variable treshold. [Koen Van Impe]
+- Dashboard widgets. [Koen Van Impe]
+
+  - Widget to display system resources (df, cpu, mem)
+  - Widget to display the latest sightings
+  - Widget to display the false positive sightings above certain treshold
+- Merge pull request #6003 from GlennHD/patch-1. [Alexandre Dulaunoy]
+
+  Fixed typo
+- Fixed typo. [GlennHD]
+
+  Fixed typo
+- Merge pull request #5999 from JakubOnderka/pull-all. [Andras Iklody]
+
+  new: [cli] Command for pulling from all remote servers
+- Merge pull request #5996 from JakubOnderka/bump-cake. [Andras Iklody]
+
+  chg: [internal] Bump CakePHP to 2.10.22
+- Merge pull request #5991 from JakubOnderka/drop-big-index. [Andras
+  Iklody]
+
+  chg: [internal] Drop correlations indexes
+- Merge branch 'decaying-v2' into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into decaying-v2.
+  [mokaddem]
+- Merge pull request #5988 from JakubOnderka/patch-113. [Andras Iklody]
+
+  fix: [internal] Removing attributes from empty event
+- Merge pull request #5984 from JakubOnderka/patch-112. [Alexandre
+  Dulaunoy]
+
+  chg: [internal] Log exception when querying modules
+- Merge branch '2.4' of github.com:MISP/MISP into decaying-v2.
+  [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge pull request #5972 from JakubOnderka/patch-111. [Andras Iklody]
+
+  chg: [UI] Make Enrichment Results little bit nicer
+- Merge pull request #5973 from MISP/fix-soft-delete-feed-delta-merge.
+  [Andras Iklody]
+
+  Soft-delete Attributes when performing a feed delta-merge
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [Alexandre
+  Dulaunoy]
+- Add: [stix2] Supporting import & export of file encoding attributes in
+  file objects. [chrisr3d]
+- Merge branch '2.4' of github.com:MISP/MISP into decaying-v2.
+  [mokaddem]
+- Merge pull request #5964 from JakubOnderka/patch-109. [Andras Iklody]
+
+  fix: [galaxy] Fetch all events for galaxy cluster
+- Merge pull request #5965 from JakubOnderka/patch-110. [Andras Iklody]
+
+  fix: [UI] Show feed caching just for site admins
+- Merge pull request #5958 from eschultze/eschultze-phishstats.
+  [Alexandre Dulaunoy]
+
+  [feed] Add phishstats.info
+- Add phishstats.info. [eschultze]
+- Merge pull request #5959 from SteveClement/tools. [Steve Clement]
+- Merge pull request #5952 from JakubOnderka/patch-107. [Andras Iklody]
+
+  fix: [internal] Remove unused method
+- Merge pull request #5955 from JakubOnderka/confusing-module-
+  diagnostic. [Andras Iklody]
+
+  fix: [UI] Module diagnostic colors
+- Merge pull request #5941 from MISP/git-commit-id. [Raphaël Vinot]
+
+  new: [type] git-commit-id
+- Merge pull request #5942 from JakubOnderka/correlation-saving. [Andras
+  Iklody]
+
+  Correlation saving
+- Merge pull request #5906 from JakubOnderka/fix-ipv4-cidr-validation.
+  [Andras Iklody]
+
+  fix: [attribute] Do not allow for IPv4 CIDR masklen bigger than 32
+- Merge pull request #5938 from SteveClement/guides. [Steve Clement]
+- Merge pull request #5937 from SteveClement/guides. [Steve Clement]
+- Merge pull request #5936 from JakubOnderka/php74-errors. [Andras
+  Iklody]
+
+  fix: [internal] Notices in PHP 7.4 for login page
+- Merge pull request #5935 from JakubOnderka/patch-106. [Andras Iklody]
+
+  fix: [UI] Bootstrap 2 doesn't support auto position for popover
+- Merge pull request #5924 from JakubOnderka/php74-errors. [Andras
+  Iklody]
+
+  Fix notices in PHP 7.4
+- Merge pull request #5934 from JakubOnderka/remove-galaxy-tags. [Andras
+  Iklody]
+
+  chg: [internal] Faster removing galaxy cluster tags from attributes
+- Merge pull request #5933 from JakubOnderka/patch-105. [Andras Iklody]
+
+  chg: [UI] Nicer icon for form info
+- Merge pull request #5930 from SteveClement/guides. [Steve Clement]
+- Merge pull request #5928 from JakubOnderka/patch-104. [Andras Iklody]
+
+  fix: [UI] Do not show Good-Bye when using custom logout
+- Merge pull request #5925 from JakubOnderka/patch-102. [Alexandre
+  Dulaunoy]
+
+  fix: [UI] Galaxy cluster links should be clickable
+- Merge pull request #5926 from JakubOnderka/patch-103. [Andras Iklody]
+
+  new: [UI] Add event ID to page table
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [Alexandre
+  Dulaunoy]
+- Merge branch 'pr-5256' into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into pr-5256. [mokaddem]
+
+
+v2.4.126 (2020-05-18)
+---------------------
+
+New
+~~~
+- [internal] Do not log auhtkeys. [Jakub Onderka]
+- [tool] Generates communities webpage. [Christophe Vandeplas]
+- [pubsub] Show info about processed messages. [Jakub Onderka]
+- [UI] Make clear that the textarea under event is discussion. [Jakub
+  Onderka]
+- [sync] (for now) undocumented force pull added. [iglocska]
+
+  - can only be triggered via the CLI for now
+  - usage: /var/www/MISP/app/Console/cake Server pull [user_id] [server_id] [technique] [force]
+    - the force flag has to be passed as 'force' to avoid accidentally triggering it
+
+  - What it does:
+    - pulls ignoring the timetamp differences
+    - this means that even older states of events, attributes, objects are ingested
+    - useful for when wanting to reset an event / all events to align with an upstream server
+  - Caveats:
+    - attributes added on the low side are maintained
+    - tags added on the low side are maintained
+    - keep in mind this WILL override attributes that are soft deleted
+- [restsearch] object restsearch now has the metadata flag. [iglocska]
+
+  - when set, no attributes are returned
+- [API] added threat_level_id as a restSearch filter. [iglocska]
+- [statistics] added contributing org count. [iglocska]
+
+Changes
+~~~~~~~
+- Bump PyMISP. [Raphaël Vinot]
+- [version] bump. [iglocska]
+- [misp-taxonomies] updated to the latest version. [Alexandre Dulaunoy]
+- [ui] Simplified code for OrgImgHelper. [Jakub Onderka]
+- [installer] Version bump. [Steve Clement]
+- [installer] Version bump. [Steve Clement]
+- [installer] Update after Kali Linux fix. [Steve Clement]
+- [kali] More fixes, perhaps installing cake is useful?! 200QI. [Steve
+  Clement]
+- [kali] More kali fixes and do not udpate apt all the time. [Steve
+  Clement]
+- [kali] Added more kali tweaks, remove 2019.x compat. [Steve Clement]
+- [kali] Some more tweaks and a check if enough space available. [Steve
+  Clement]
+- [installer] Version bump. [Steve Clement]
+- [bash] various bash specific enhances
+  (https://stackoverflow.com/questions/3427872/whats-the-difference-
+  between-and-in-bash) [Steve Clement]
+- [PyMISP] Bump. [Raphaël Vinot]
+- [opendata] Bumped latest misp-opendata submodule version. [chrisr3d]
+- [PyMISP] Bump. [Raphaël Vinot]
+- [server:dbSchema] Added support of mysql's `extra` column. Fix #5860.
+  [mokaddem]
+- [pubsub] Refactored PubSub tool. [Jakub Onderka]
+- [feed] Use https when fetching DGAs feed. [Jakub Onderka]
+- [feed] Modify value when checking if value exists in current event.
+  [Jakub Onderka]
+- [internal] Do not call Configure method for every attribute. [Jakub
+  Onderka]
+- [correlations] Faster inserting data to Redis. [Jakub Onderka]
+- [correlations] Use faster algorithm for IPv6 correlations. [Jakub
+  Onderka]
+- [installer] Installer bump. [Steve Clement]
+- [doc] Various install guide updates. [Steve Clement]
+- [internal] Faster saving attributes. [Jakub Onderka]
+- [misp-galaxy] updated to the latest version. [Alexandre Dulaunoy]
+- [test] Set required GnuPG setting. [Jakub Onderka]
+- [test] Use debug transport for sending emails. [Jakub Onderka]
+- [restSearch] Option to skip fetching attributes/events when only the
+  metadata is wanted. [chrisr3d]
+
+  - As for the opendata export we do not need to get
+    the attributes or event, and are only interested
+    in using the metadata, a parameter to skip
+    fetching the actual data collection has been
+    added, and we avoid iterating through the entire
+    data collection.
+- [opendata] Bumped latest misp-opendata updates. [chrisr3d]
+- [opendata export] Checking opendata setup and raising exception in
+  case of error. [chrisr3d]
+- [opendata] Bumped the latest updates on the opendata python script.
+  [chrisr3d]
+- [user:finaliseAndSendEmail] Aggresively catch errors and log them
+  while sending email. [mokaddem]
+- Bump PyMISP. [Raphaël Vinot]
+- [roles] allow the creation site admin enabled roles without auth
+  access. [iglocska]
+- [i18n] Updated: zh-s. [Applenice]
+- [i18n] Updated: zh-s. [Applenice]
+- [misp-objects] updated to the latest version. [Alexandre Dulaunoy]
+- [installer] Bump version. [Steve Clement]
+- [doc] Make misp-modules work again. [Steve Clement]
+- [installer] Version Bump. [Steve Clement]
+
+Fix
+~~~
+- [security] xss in the resolved attributes view. [iglocska]
+
+  - thanks to Jakub Onderka for reporting it
+- [UI] Always use capital UUID. [Jakub Onderka]
+- [feed] Follow redirect when fetching manifest. [Jakub Onderka]
+- Allow_disabling_correlation not taken into account. [Golbark]
+- [ui] Always show full logo for related events box. [Jakub Onderka]
+- [correlations] Ssdeep check all chunks. [Jakub Onderka]
+- [bug] '' != "" especially when trying to eval vars. [Steve Clement]
+- [kali] Some issues with function aliasing. [Steve Clement]
+- [bash] Alias functions need a function and not a string... [Steve
+  Clement]
+- [kali] More fixes to make sure composer install correctly. [Steve
+  Clement]
+- [kali] More kali fixes. [Steve Clement]
+- [installler] Little bug, code would never detect a VM... [Steve
+  Clement]
+- [kali] When it's ugly, it looks like this. [Steve Clement]
+- [doc] mkdocs needs to be kept below a certain version. [Steve Clement]
+- [kali] Kali installer fixes. [Steve Clement]
+- [kali] Kali is now 2020.x need to fix. [Steve Clement]
+- [opendata export] Using external_baseurl if set, before baseurl.
+  [chrisr3d]
+
+  - If external_baseurl is not set, baseurl is used
+- [opendata export] Internalization of the error messages. [chrisr3d]
+- [opendata export] Less confusing variable name for the parameter to
+  only skip exporting the data and keep only the header. [chrisr3d]
+- [stix2 export] Fixed CustomObject creation for MISP objects.
+  [chrisr3d]
+- [stix2 export] Fixed custom objects export from misp objects.
+  [chrisr3d]
+- [stix1 import] Fixed ttps list attribute name for STIX document
+  created with MISP. [chrisr3d]
+- [feed:edit] Do not override feed settings if not provided via the API.
+  Fix #5896. [mokaddem]
+- [indexTable:quickFulltextSearch] Encode additional characters enabling
+  more search possibilities. Fix #5890. [mokaddem]
+- [sightingdbs:model] Added default value for `timestamp`. Fix #5887.
+  [mokaddem]
+- [attribute:simpleAddMalwareSample] Typo in loading `Object` class. Fix
+  #5864. [mokaddem]
+
+  - Was not spotted before because the fixed line was if fact doing
+  nothing as the class's key was already used
+- [correlations] Do not check all attributes when cache is empty. [Jakub
+  Onderka]
+- [correlations] Correlate ShadowAttribute just if exists. [Jakub
+  Onderka]
+- [correlations] Do not correlate CIDR with CIDR. [Jakub Onderka]
+- [attribute] modifyBeforeValidation fix for `domain|ip` type. [Jakub
+  Onderka]
+- [correlations] Return just unique values for CIDR list. [Jakub
+  Onderka]
+- [correlations] IPv6 CIDR correlations works. [Jakub Onderka]
+- [correlations] Removed unnecessary Redis call. [Jakub Onderka]
+- [correlations] Remove references to not exists type 'domain-ip' [Jakub
+  Onderka]
+- [diagnostic] Updated required version for the stix python library.
+  [chrisr3d]
+- [stix1 import] Fixed uuids parsing. [chrisr3d]
+
+  - Using the built-in uuid parsing method to avoid
+    potential issues when some uuids are provided
+    without dashes, instead of getting is as a
+    string, which fails when there is no dash
+- [stix1 import] Fixed ttps list attribute name. [chrisr3d]
+- [feed] Job progressbar fix. [Jakub Onderka]
+- [feed] Optimise saving freetext feeds with a lot of attributes. [Jakub
+  Onderka]
+- [gitmodules] Using https instead of ssh to avoid permission denied
+  error. [chrisr3d]
+- [opendata export] No longer using the returnFormat field as the
+  dataset resource format. [chrisr3d]
+
+  - The resource format can be defined with a
+    'format' field within the resource field in the
+    setup filter
+- [attributes:edit] Do not required the distribution anymore. [mokaddem]
+- [attributes:add] Do not required the distribution anymore. [mokaddem]
+- [registration] log entry action shortened to not cause issues.
+  [iglocska]
+- Fixes STIX2 export bugs when trying to use TLP Tags other than
+  TLP_WHITE, resolve attempted dual registration of custom STIX objects.
+  [Tom King]
+- [JS] left off admin enforced check for the role permission. [iglocska]
+
+  - to allow auth to be unchecked for site admins
+- [object restsearch] fixed, no more trailing commas. [iglocska]
+- [registration] acceptRegistration now accepts non User wrapped input.
+  [iglocska]
+- [users] accepting registration requests can throw a badly mapped
+  exception. [iglocska]
+
+  - changed to 400
+- [object restsearch] fixed. [iglocska]
+
+  Endless loop fixed
+- [ACL] added objects/restSearch. [iglocska]
+- [UI] Always use UUID with capital letter. [Jakub Onderka]
+- [registrations] multi-delete fixed. [iglocska]
+- [API] metadata filter description changed. [iglocska]
+- [github] Release type no needed :) [Jakub Onderka]
+- [json converter] fixed an issue if an expected key was not found.
+  [iglocska]
+
+  - was only accessible due to another bug, but it's more graceful either way
+- [export] JSON export used the wrong handler for /objects/restSearch.
+  [iglocska]
+- [stix export] Bump minimum CybOX version to 2.1.0.21. [Richard van den
+  Berg]
+- [stix2 export] Fixed stix2 imports. [chrisr3d]
+
+  - All the required features are imported and we no
+    longer import them with *
+- [installer] Embarassing typo no1, 7.3!=7.4. [Steve Clement]
+
+Other
+~~~~~
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [Raphaël Vinot]
+- Merge branch 'pr-5917' into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into pr-5917. [mokaddem]
+- Merge branch 'pr-5902' into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into pr-5902. [mokaddem]
+- Merge branch 'pr-5907' into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into pr-5907. [mokaddem]
+- Merge branch 'pr-5911' into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into pr-5911. [mokaddem]
+- Merge branch 'pr-5862' into 2.4. [mokaddem]
+- Merge branch '2.4' into pr-5862. [mokaddem]
+- Merge branch 'pr-5856' into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into pr-5856. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into pr-5856. [mokaddem]
+- Clean up errors when trying to update warning lists. [Jason Kendall]
+- Merge remote-tracking branch 'MISP/2.4' into 2.4. [Christophe
+  Vandeplas]
+- Merge pull request #5915 from SteveClement/guides. [Steve Clement]
+- Merge pull request #5914 from SteveClement/guides. [Steve Clement]
+- Merge pull request #5913 from SteveClement/guides. [Steve Clement]
+- Merge branch 'guides' of github.com:SteveClement/MISP into guides.
+  [Steve Clement]
+- Merge remote-tracking branch 'upstream/2.4' into guides. [Steve
+  Clement]
+- Merge pull request #5912 from SteveClement/guides. [Steve Clement]
+- Merge pull request #5891 from MISP/opendata. [Christian Studer]
+
+  Opendata export via restSearch
+- Merge branch '2.4' of https://github.com/MISP/MISP into opendata.
+  [chrisr3d]
+- Merge branch '2.4' of https://github.com/MISP/MISP into opendata.
+  [chrisr3d]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [chrisr3d]
+- Merge pull request #5876 from JakubOnderka/pubsub. [Andras Iklody]
+
+  chg: [pubsub] Refactored PubSub tool
+- Merge pull request #5863 from JakubOnderka/discussion-header. [Andras
+  Iklody]
+
+  new: [UI] Make clear that the textarea under event is discussion
+- Merge pull request #5895 from JakubOnderka/patch-98. [Andras Iklody]
+
+  chg: [feed] Use https when fetching DGAs feed
+- Merge pull request #5897 from
+  JakubOnderka/fixed_event_freetext_feed_speedup. [Andras Iklody]
+
+  chg: [feed] Modify value when checking if value exists in current event
+- Merge pull request #5904 from stricaud/2.4. [Andras Iklody]
+
+  Few improvements to misp-config
+- Few improvements: put the help print in a function. Make sure all the
+  things we update are commented and do not push commented
+  configuration. [Sebastien Tricaud]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #5903 from JakubOnderka/correlation-speedup.
+  [Andras Iklody]
+
+  Correlation speedup
+- Merge pull request #5889 from JakubOnderka/attribute_correlation.
+  [Andras Iklody]
+
+  IPv6 CIDR correlations
+- Merge pull request #5870 from SteveClement/guides. [Steve Clement]
+- Merge pull request #5892 from
+  JakubOnderka/fixed_event_freetext_feed_speedup. [Andras Iklody]
+
+  Fixed event freetext feed speedup
+- Merge branch '2.4' of https://github.com/MISP/MISP into opendata.
+  [chrisr3d]
+- Merge pull request #5882 from JakubOnderka/build-fix. [Alexandre
+  Dulaunoy]
+
+  Build fix
+- Merge branch '2.4' of https://github.com/MISP/MISP into opendata.
+  [chrisr3d]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [Raphaël Vinot]
+- Add: [opendata export] Support of the deleting abilities. [chrisr3d]
+
+  - Deleting a dataset or its resource(s) is now
+    available from the restSearch side as it already
+    is with the python script
+- Merge branch '2.4' of github.com:MISP/MISP into opendata. [chrisr3d]
+- Merge pull request #5871 from tomking2/bug/stix2_bugs. [Christian
+  Studer]
+
+  fix: Fixes STIX2 export bugs when trying to use TLP Tags other than T…
+- Add: [restSearch] OpenData export module. [chrisr3d]
+- Add: [restSearch] Added opendata to the valid formats. [chrisr3d]
+- Add: [opendata] Submoduling misp-opendata. [chrisr3d]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #5861 from JakubOnderka/capital-uuid. [Alexandre
+  Dulaunoy]
+
+  fix: [UI] Always use UUID with capital letters
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #5866 from JakubOnderka/patch-97. [Steve Clement]
+
+  fix: [github] Release type no needed :)
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #5859 from stricaud/mispconfig. [Steve Clement]
+
+  Adding misp-config, a Perl tool to configure MISP.
+- Adding misp-config, the Perl tool which configures MISP. It dumps the
+  actual configuration to a prefixed tree, which defaults to
+  /etc/misp/misp.conf.d/ and it sets all the configuration options
+  existing from those files. [Sebastien Tricaud]
+- Merge pull request #5853 from Applenice/2.4. [Steve Clement]
+
+  chg: [i18n] Updated: zh-s
+- Merge pull request #5858 from stricaud/debian. [Steve Clement]
+
+  Adding the apache modules enablement in preinst
+- Adding the apache modules enablement in preinst. [Sebastien Tricaud]
+- Merge pull request #5857 from RichieB2B/ncsc-nl/cybox-version.
+  [Christian Studer]
+
+  fix: [stix export] Bump minimum CybOX version to 2.1.0.21
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [chrisr3d]
+- Merge pull request #5850 from stricaud/debian_2_4_125. [Andras Iklody]
+
+  Updates on debian package for 2.4.125
+- Merge branch '2.4' into debian_2_4_125. [stricaud]
+- Merge pull request #5846 from SteveClement/guides. [Steve Clement]
+
+  chg: [doc] Make misp-modules work again
+- Some changes which improve how Mysql user can be accessed by default,
+  remove the enablement of apache modules in postinst (moved them to
+  preinst). [Sebastien Tricaud]
+- Added new version bump in changelog. [Sebastien Tricaud]
+- Adding installation of cakeresque config. [Sebastien Tricaud]
+- Adding the preinst where required apache modules are enabled.
+  [Sebastien Tricaud]
+- If the submodules have not been initialized and updated, the debian
+  package will build. However the installation will not be a success.
+  [Sebastien Tricaud]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #5843 from SteveClement/tools. [Steve Clement]
+
+  fix: [installer] Embarassing typo no1, 7.3!=7.4
+- Merge remote-tracking branch 'upstream/2.4' into tools. [Steve
+  Clement]
+
+
+v2.4.125 (2020-04-30)
+---------------------
+
+New
+~~~
+- [feed] Support for compressed feeds. [Jakub Onderka]
+- Implementation of email-based OTP. [Golbark]
+- [security] added policy for github. [iglocska]
+- [doc] Initial copy for Ubuntu 20.04. [Steve Clement]
+- [installer] updated template to prepare grounds for 20.04 (php7.4)
+  [Steve Clement]
+- [misp-wipe] Add option to enable notice and warninglists. [Richard van
+  den Berg]
+- [internal] cache the sharing group access lookups. [iglocska]
+
+  - should reduce the number of queries drastically for events heavy on object/attribute level sharing groups
+- [privacy] filter added for the authkeys in the admin section to make
+  giving trainings easier. [iglocska]
+- [feeds] index refactor and new features. [iglocska]
+
+  - added the ability to select an orgc ID for CSV/freetext feeds
+    - all events created from this feed will carry the selected orgc_id
+
+  - Refactored the index fully
+    - using the factories
+    - better warnings against the dangerous new feed each pull setting
+    - event index search added
+    - several settings cleaned up / made more clear
+
+  - auto reload of default feed configuration disabled, fixes #2542, fixes #5789
+    - added a button / endpoint to handle that instead to allow for the deleted default feeds to stay deleted
+- [IndexTable] improvements all around. [iglocska]
+
+  - several new field types added (target event, caching)
+  - several updated with new features and functionalities
+  - tied into the new data path collector among other changes
+- [UI Helper] DataPathCollector helper added. [iglocska]
+
+  - helps the index factory fields retrieve data from the currently processed object based on a set of paths
+- [tool] MISP to Slack messaging using ZMQ. [Christophe Vandeplas]
+- [tool] MISP to Slack messaging using ZMQ. [Christophe Vandeplas]
+- [database] New MySQL data source added for debugging. [iglocska]
+
+  - MySQLObserver datasource added - prepends all queries with the requested controller/action and user ID for better debugging
+- [dashboard] COVID active cases backported from widget collections.
+  [iglocska]
+- [community] added the COVID-19 MISP community to the list. [iglocska]
+- [communities] self-registration links now exposed in the communities
+  index. [iglocska]
+- [registration] fall back to the e-mail domain if no org info is
+  provided. [iglocska]
+
+  - also, make the org info optional
+- [inbox] stub controller. [iglocska]
+- [inbox] system added. [iglocska]
+
+  - user self-registration is the first use-case
+  - if the feature is enabled, users can unauthenticated send a registration request to MISP
+    - request includes information on desired org and some privileges (sync / org admin / publisher)
+  - requests land in the inbox, admins can inspect the registration requests
+    - they can accept/discard them individually or en masse
+    - users will be notified of their credentials automatically
+    - quick user creation if the user asks for an org that doesn't exist yet
+
+Changes
+~~~~~~~
+- [VERSION] bump. [iglocska]
+- [pymisp] bump. [iglocska]
+- [new] Added QEMU support. [Steve Clement]
+- [warning-lists] updated to the latest version. [Alexandre Dulaunoy]
+- [misp-objects] updated to the latest version. [Alexandre Dulaunoy]
+- [misp-galaxy] updated to the latest version. [Alexandre Dulaunoy]
+- [installer] Version bump. [Steve Clement]
+- [db_schema] bumped. [iglocska]
+- [installer] Update installer to latest. [Steve Clement]
+- [installer] Initial 20.04 support. [Steve Clement]
+- [otp] monor changes. [iglocska]
+
+  - i18n
+  - function naming convention
+- [internal] Cache result of AppController::_isRest method. [Jakub
+  Onderka]
+- [advanced extraction] is now the default. [iglocska]
+- [small changes] improve double loading of models. [iglocska]
+
+  - some minor changes to improve performance slightly
+  - some i18n additions (weren't present before the PR either)
+- [Log:beforeSave] Fallback to `SYSTEM` Org if field empty. [mokaddem]
+- [internal] Removed unused function. [Jakub Onderka]
+
+  This function has typo in name `beforeValid*e*te`, so its never called. And because everything works, I think it is safe to remove it.
+- [internal] Speed up of loading event page. [Jakub Onderka]
+- [events:view] Support of `extended` for posted data. [mokaddem]
+- [installer] Updated installer to latest version. [Steve Clement]
+- [doc] Small CLI hint. [Steve Clement]
+- [doc] Minor updates. [Steve Clement]
+- [PyMISP] Bump. [Raphaël Vinot]
+- [doc] Added preliminary 20.04 files. [Steve Clement]
+- [decaying:restSearch] Always includes computed base_score in the
+  response. [mokaddem]
+- [i18n] More fr-updates. [Steve Clement]
+- [i18n] Updated: de, dk, fr, it, jp, no, ru, zh-s. [Steve Clement]
+- [i18n] Full jpn translation as of 2 months ago. [Steve Clement]
+- [misp-objects] updated to the latest version. [Alexandre Dulaunoy]
+- [taxonomies] updated to the latest version. [Alexandre Dulaunoy]
+- [users:registrations] Catch if no org_id was provided. [mokaddem]
+- [internal] Log also previous exception. [Jakub Onderka]
+- [UI] Disable Advanced extraction button if it is not installed. [Jakub
+  Onderka]
+- [internal] Refactored AttributesController:add_attachment. [Jakub
+  Onderka]
+- [internal] Refactoring malware handling. [Jakub Onderka]
+- [sharingGroup:capture] Prevent capture of SG in some specific cases -
+  Need more testing. [mokaddem]
+
+  Should fix #5784
+- [event:timeline] Prevent item selection while in the sighting context.
+  [mokaddem]
+- [event:timeline] Added Sightings visualisation. [mokaddem]
+- [user:registration] Added audit log. [mokaddem]
+- [user:acceptRegistration] Added fail message. [mokaddem]
+- [user:acceptRegistration] Default to instance's default role if
+  role_id not passed. [mokaddem]
+- [user:regitration] Accept/Discard registration accept UUID as
+  parameter. [mokaddem]
+- Bumped db_schema.json. [mokaddem]
+- [ACL] updated. [iglocska]
+- [ACL] added the feed data reload. [iglocska]
+- [misp-objects] bump. [iglocska]
+- [objects] bump. [iglocska]
+- [stix2] Bumped latest STIX2 python library version. [chrisr3d]
+- [misp-objects] updated to the latest version. [Alexandre Dulaunoy]
+- [widgets:multiline] Allow to ctrl+click on labels to hide the others.
+  [mokaddem]
+- [logs:search] Added support of JSON return format. [mokaddem]
+- [event:restSearch] Added `includeEventCorrelations` parameter.
+  [mokaddem]
+- [taxonomies] updated. [iglocska]
+- [events:exports] Migrated majority of export type to use restSearch.
+  [mokaddem]
+- [index field] org field updated to allow for org information not local
+  to the current instance (no ID set) [iglocska]
+- [registrations] show the time of request's creations. [iglocska]
+- [db_schema] Bumped schema. [mokaddem]
+- [registration:index] Added titles to buttons. [mokaddem]
+- [warninglists] bump. [iglocska]
+- [cakephp] version bump to get TLS 1.3 support, fixes #5764. [iglocska]
+
+  - #yolo
+- [taxonomies] revert. [Alexandre Dulaunoy]
+- [taxonomies] updated to the latest version. [Alexandre Dulaunoy]
+- [widgets:trendingTags] Added threshold parameter to let user decide
+  the # to show. [mokaddem]
+- [dashboard] Added COVID widgets to the default installation from
+  widget-collections. [iglocska]
+
+  - should be interesting enough for all at this point. We might remove it again once COVID-19 is finally gone from our lives
+- [stix2 libray] Bumped latest python library version. [chrisr3d]
+- [stix2 export] Setting datetime fields. [chrisr3d]
+
+  - Instead of letting the created and modified
+    fields set by default, we set them with the
+    timestamp value (or date in case of an event)
+  - The first_seen & last_seen values (or equivalent
+    like valid_from, valid_until, depending on the
+    STIX object type) are set to the first_seen /
+    last_seen if possible, otherwise timestamp
+- [warninglists] bump. [iglocska]
+- [cleanup] removed bad idea that got barfed into the codebase.
+  [iglocska]
+- [syslog] added title of log entry. [iglocska]
+- [warninglists] updated. [iglocska]
+- [misp-galaxy] updated to the latest version. [Alexandre Dulaunoy]
+- [warning-lists] updated to the latest version. [Alexandre Dulaunoy]
+- [server:dbSchemaDiagnostic] Support of display width and updated
+  `db_schema.json` [mokaddem]
+- [settings] disabling background jobs now counts as a misconfiguration.
+  [iglocska]
+- [publish alert] linebreak issue fixed, added notification about why
+  the user receives the e-mail. [iglocska]
+
+Fix
+~~~
+- [internal] Just site admin can force when saving freetext. [Jakub
+  Onderka]
+- [installer] Bug where the wrong php deps would get installed. [Steve
+  Clement]
+- [installer] Fix a bug where the installer fails if apt update has
+  never been run. [Steve Clement]
+- [user settings] corrected field name. [iglocska]
+- [internal] Edge case where due to an old invalid update script an
+  instance could end up with the wrong key in user settings. [iglocska]
+
+  - this should resolve the issue for affected users
+  - no change for everyone else
+- [otp] pre-auth action list only expanded if otp is enabled. [iglocska]
+- [otp] enabling it requires e-mailing to be enabled. [iglocska]
+- [ACL] a private function was missing the __ causing the ACL checker to
+  return it as an unmapped accessible function. [iglocska]
+- [internal] syslog shouldn't end with new line. [Jakub Onderka]
+
+  Because then two lines are logged
+- [internal] Remove unused code. [Jakub Onderka]
+- Remove unused variable. [Jakub Onderka]
+- [event] fixes missing correlations with combined types (#5832)
+  [Christophe Vandeplas]
+
+  * fix: [event] fixes missing correlations with combined types
+
+  also some other missing variable bug
+- [internal] Deleting multiple Redis keys. [Jakub Onderka]
+- [UI] Proper object table header when includeRelatedTags. [Jakub
+  Onderka]
+- [doc] MISP expects lief 0.10.1. [Steve Clement]
+- [cake] more new defaults as per
+  https://github.com/MISP/MISP/issues/5803. [Steve Clement]
+- [templates:add] Adding tag do not submit the form anymore. Fix #5826.
+  [mokaddem]
+- [Console:Server] Added `configLoad` task. Fix #5793. [mokaddem]
+- [galaxyCluster:index] Restored search functionality. [mokaddem]
+- [feed:add] Do not override `new_event_at_each_pull` value. Fix #5815.
+  [mokaddem]
+- [attribute:restSearch] Make sure to always pass all tags to Decaying's
+  computation function. [mokaddem]
+- [internal] HTML code in view_event_distribution_graph. [Jakub Onderka]
+- Correct flash message when sending e-mail. [Jakub Onderka]
+- [misp-wipe] bring wiping up to date with MYSQL.sql. [Richard van den
+  Berg]
+- [pagination] Fixed bottom pagination links on the bottom. [iglocska]
+- [registrations] Users can now register using the API without a valid
+  key, affects #5783. [iglocska]
+- [attribute:edit] Prevent save for invalid sharing_groups ids.
+  [mokaddem]
+- [attribute:add] Prevent save for invalid sharing_groups ids.
+  [mokaddem]
+- [event:view] Restored disabled_correlation toggle. [mokaddem]
+- [correlations] Update correlations on Attribute or Event
+  `distribution` change. [mokaddem]
+- [event:fetchEvent] Block viewing Objects/Attributes if the user does
+  not belong to the sharing_group. [mokaddem]
+
+  Even if these elements belong to the user. Similar explanation than for 7cd2175
+- [event:fetchEvent] Block viewing the event if user does not belong to
+  the sharing_group. [mokaddem]
+
+  Even if the event belongs to the user. This scenario can happen if a
+  remote sync is badly configured where the remote sync user have
+  site_admin right, thus allowing the user to see the event even though
+  he is not part of the SG
+- [user:registration] Default undefined message to empty string.
+  [mokaddem]
+- [internal] Remove already removed git modules. [Jakub Onderka]
+- [stix2 export] Fixed STIX JSON Encoder import. [chrisr3d]
+
+  - With the latest update it is no longer part of
+    stix2.base but stix2.v20.base by default, so we
+    need to import it from stix2.base manually
+- [feed index] Converted to static tags to skip erroneous add tag
+  buttons. [iglocska]
+- [ajaxTags] resolved not set searchURL string. [iglocska]
+- [observer datasource] fixed for the QueryTool. [iglocska]
+- [internal] Added a setting to skip positive attribute level filters on
+  the event scope. [iglocska]
+
+  - when running a large MISP community, it is bound to happen that your instance will be used as the back-end for internal tooling
+  - often these tools are configured to fetch aggressively, often with heavy consequences on the server load
+  - some filter that serves mostly edge-case lookups can mistakenly lead to heavy server load for no good reason
+
+  We have identified attribute level positive filters on the event scope to be such a filter and made them optionally toggle-able
+  via the MISP.attribute_fitlers_block_only flag. Turning the setting on will remove all event level filters such as "type" from
+  being viable filter candidates unless used to block the inclusion of attribute types. Some examples:
+
+  "type": {"OR": ["ip-dst", "ip-src", "hostname", "domain"]} would normally return ANY event that has at least one of the listed
+  attribute types. This is the behaviour that can now be disabled.
+
+  "type": {"NOT": ["iban", "cc-number"]} would normally remove any attributes with the given types from the list of returned
+  events. This functionality is NOT affected by the toggle.
+- [stix1 import] Fixed object name handling causing errors in some
+  cases. [chrisr3d]
+
+  - With a wrong object name, the correct function
+    was not reached, reaching some unexpected errors
+- [API] event index queries refactored. [iglocska]
+
+  - fixed ID lookups to be more graceful (IN() instead of OR-d statements)
+  - removed default sorting which is the default anyway but introduces a massive overhead
+- [database] made MySQLObserver php < 7.2 compliant. [iglocska]
+- [database] bruteforce check relaxed for datasource. [iglocska]
+- [database] added missing file. [iglocska]
+- [restresponse] invalid keyword for controllers blocked SQL data to be
+  appended on demand. [iglocska]
+- [tool] slackbot cosmetic change. [Christophe Vandeplas]
+- [genericTable:rowDblclick] Made row selector more lax. [mokaddem]
+- [decaying:base] MAke sure to return a tag event if it's not part of a
+  taxonomy. [mokaddem]
+- [stix1 export] Exporting all tags as Marking. [chrisr3d]
+
+  - Not only for TLP tags
+  - Not TLP tags are SimpleMarking and no longer
+    journal entry as they were before
+- [server:DBSchemaDiagnostic] Quote index column's name and added
+  missing keyword. [mokaddem]
+- [events:export-csv] Default to_ids to be 1. [mokaddem]
+- [stix1 import] Avoiding Php notice because of the end function.
+  [chrisr3d]
+
+  - Same as 8f90f79
+- [stix1 import] Updated the email message mapping to support the
+  message-id attribute import. [chrisr3d]
+- [UI] Added missing delete button for organisations, fixes #5773.
+  [iglocska]
+- [self-registration] added missing field. [iglocska]
+- [user:email] Replaced query parameters by cake's named parameters.
+  Hopefully fix #5745. [mokaddem]
+- [user registration] reverted bug introduced in previous commit
+  restricting the org choice to the suggested org if there was a match.
+  [iglocska]
+- [console:admin] getSetting can be used to retrieve all settings.
+  [mokaddem]
+- [user registration] minor bug fixes. [iglocska]
+- [user registration] automatically convert selected orgs to local as
+  described in the tool. [iglocska]
+- [trialing commas] removed. [iglocska]
+- [stix2 export] Avoiding the "end" function to return a notice.
+  [chrisr3d]
+
+  - It looks like depending on the Php version, the
+    end function does not like to have the reference
+    of an array. By delaying its call, we pass the
+    actual array and the notice no longer appears
+- [stix2 export] Fixed datetime fields format in custom objects.
+  [chrisr3d]
+- [widgets:trendingTags] Removes unused vars. fix #5761. [mokaddem]
+- [API] fixes to set_filter_uuid. [iglocska]
+- [search] Fixed the UUID / ID searches on the attribute scope, fixes
+  #5636. [iglocska]
+- [UI] API reset link fixed on the automation page, fixes #5749.
+  [iglocska]
+
+Other
+~~~~~
+- Merge pull request #5207 from JakubOnderka/patch-33. [Steve Clement]
+
+  fix: [internal] Just site admin can force when saving freetext
+- Merge pull request #5842 from SteveClement/tools. [Steve Clement]
+
+  chg: [new] Added QEMU support
+- Merge branch 'eventTimeline-sightings' into 2.4. [mokaddem]
+- Merge remote-tracking branch 'origin/2.4' into eventTimeline-
+  sightings. [mokaddem]
+- Merge branch '5802' into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 5802. [iglocska]
+- Merge pull request #5841 from SteveClement/guides. [Steve Clement]
+
+  fix: [installer] Bug where the wrong php deps would get installed
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Revert "Merge branch '5835' into 2.4" [iglocska]
+
+  This reverts commit 48132af1796b13e888ecdc77fa0e25787d517242, reversing
+  changes made to 9a22aa1f3c1295ab4715e7043e09fa3797b592cb.
+- Merge branch '5834' into 2.4. [iglocska]
+- Merge branch '5835' into 2.4. [iglocska]
+- Merge branch 'stix2-info-patch' of https://github.com/pan-unit42/MISP
+  into stix2-info-patch. [kscheetz]
+- Merge branch '2.4' into stix2-info-patch. [kscheetz]
+- Fixes missing self argument bug. [kscheetz]
+- Moved info assignment to method. [kscheetz]
+- Simplification for code complexity reqs. [kscheetz]
+- Merge branch '2.4' into stix2-info-patch. [kscheetz]
+- Preserve report order. [kscheetz]
+- Stix2 importer naming change. [kscheetz]
+- Fixes missing self argument bug. [kscheetz]
+- Moved info assignment to method. [kscheetz]
+- Simplification for code complexity reqs. [kscheetz]
+- Preserve report order. [kscheetz]
+- Stix2 importer naming change. [kscheetz]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #5840 from SteveClement/tools. [Steve Clement]
+
+  chg: [installer] Initial 20.04 support
+- Merge branch '5726' into 2.4. [iglocska]
+- Hook into native authentication flow instead of beforefilter which
+  prevents any after-auth bypass and rely on framework session
+  management. [Golbark]
+- Merge branch '2.4' into email-otp-implementation. [Golbark]
+
+  Conflicts:
+  	app/Model/Server.php
+- Add consistent i18n support for all strings. [Golbark]
+- Rely on session_id instead of user_id and address minor comments.
+  [Golbark]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #5561 from JakubOnderka/is_rest_cache. [Andras
+  Iklody]
+
+  chg: [internal] Cache result of AppController::_isRest method
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #5816 from Applenice/2.4. [Andras Iklody]
+
+  Modify the default parsing settings of Phishtank feed
+- Modify the default parsing settings of Phishtank feed. [Applenice]
+- Merge branch '5272' into 2.4. [iglocska]
+- Merge branch '2.4' into 5272. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch 'pr-5827' into 2.4. [mokaddem]
+- Merge remote-tracking branch 'origin/2.4' into pr-5827. [mokaddem]
+- Merge branch 'pr5709' into 2.4. [mokaddem]
+- Merge remote-tracking branch 'origin/2.4' into pr5709. [mokaddem]
+- Merge branch 'JakubOnderka-event_loading_speedup' into 2.4. [mokaddem]
+- Merge remote-tracking branch 'origin/2.4' into JakubOnderka-
+  event_loading_speedup. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Update SECURITY.md. [Andras Iklody]
+- Merge pull request #5833 from MISP/Rafiot-patch-5. [Andras Iklody]
+
+  Update SECURITY.md
+- Update SECURITY.md. [Raphaël Vinot]
+- Merge branch 'JakubOnderka-patch-96' into 2.4. [mokaddem]
+- Merge branch '2.4' into JakubOnderka-patch-96. [mokaddem]
+- Fixes failed insert on existing records. [kscheetz]
+- Fixes missing MySQL ignore table statements. [kscheetz]
+- Merge branch '5819' into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch 'JakubOnderka-redis-delete-multiple' into 2.4. [mokaddem]
+- Merge branch '2.4' into JakubOnderka-redis-delete-multiple. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #5606 from JakubOnderka/patch-82. [Sami Mokaddem]
+
+  fix: [UI] Proper object table header when includeRelatedTags
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge pull request #5824 from SteveClement/guides. [Steve Clement]
+
+  fix: [py] Updated lief to a recent known working version
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge pull request #5821 from Cooper-Dale/patch-1. [Andras Iklody]
+
+  bugfix in Suricata export template
+- Bugfix in Suricata export template. [Cooper Dale]
+
+  PR for reported bug https://github.com/MISP/MISP/issues/5766 based on suggestion @stacsirt, tested on my instance and it is working great
+- Merge pull request #5823 from SteveClement/guides. [Steve Clement]
+
+  chg: [doc] Added preliminary 20.04 files
+- Merge pull request #5822 from SteveClement/tools. [Steve Clement]
+
+  new: [installer] updated template to prepare grounds for 20.04 (php7.4)
+- Merge pull request #5574 from JakubOnderka/patch-80. [Andras Iklody]
+
+  fix: [internal] HTML code in view_event_distribution_graph
+- Merge pull request #5818 from JakubOnderka/patch-93. [Andras Iklody]
+
+  fix: Correct flash message when sending e-mail
+- Merge pull request #5158 from Kortho/patch-1. [Steve Clement]
+
+  added libcxx-devel to yum install list
+- Added libcxx-devel to yum install list. [Kortho]
+
+  Needed to compile LIEF
+- Merge pull request #5811 from RichieB2B/ncsc-nl/fillwipe. [Steve
+  Clement]
+
+  Enable notice- and warninglists after misp-wipe
+- Update misp-wipe.conf.sample. [Steve Clement]
+
+  prefer false atm
+- Merge pull request #5776 from srikwit/patch-1. [Steve Clement]
+
+  Removing mentioned stable support for Debian 9
+- Removing mentioned stable support for Debian 9. [srikwit]
+
+  As there is no file `INSTALL.debian9.txt` and we only have a file with the name `xINSTALL.debian9.txt`. The Debian 9 support seems to be experimental.
+- Merge pull request #5763 from RichieB2B/ncsc-nl/fix-gpg. [Steve
+  Clement]
+
+  Set SELinux context for crypt-gpg-pinentry
+- Set SELinux contect for crypt-gpg-pinentry, fixes #4796. [Richard van
+  den Berg]
+- Merge pull request #5651 from Kortho/patch-5. [Steve Clement]
+
+  username for service set from environment variable
+- Username for service set from environment variable. [Kortho]
+
+  Username is now fetched from environment variable instead of being hard coded
+- Merge pull request #5644 from Kortho/patch-4. [Steve Clement]
+
+  moved and added install to python-cybox
+- Moved and added install to python-cybox. [Kortho]
+
+  python-cybox missed the installation, moved the cd, and added the install
+- Merge pull request #5812 from SteveClement/i18n. [Steve Clement]
+
+  chg: [i18n] Updated: de, dk, fr, it, jp, no, ru, zh-s
+- Merge branch 'i18n' of github.com:MISP/MISP into i18n. [Steve Clement]
+- Merge branch '2.4' into i18n. [Steve Clement]
+- Merge branch '2.4' into i18n. [Steve Clement]
+- Merge branch '2.4' into i18n. [Steve Clement]
+- Merge branch '2.4' into i18n. [Steve Clement]
+- Merge branch '2.4' into i18n. [Steve Clement]
+- Merge remote-tracking branch 'origin/2.4' into i18n. [Steve Clement]
+- Merge branch '2.4' into i18n. [Steve Clement]
+- Merge branch '2.4' into i18n. [Steve Clement]
+- Merge remote-tracking branch 'upstream/2.4' into i18n. [Steve Clement]
+- Merge branch '2.4' into i18n. [Steve Clement]
+- Merge branch '2.4' into i18n. [Steve Clement]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [chrisr3d]
+- Merge pull request #5255 from JakubOnderka/patch-46. [Andras Iklody]
+
+  fix: [internal] Remove already removed git modules
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [chrisr3d]
+- Merge branch 'feed_index' into 2.4. [iglocska]
+- Add: [stixtest] Scripts to get a visual evaluation of the STIX2 export
+  & import. [chrisr3d]
+
+  - We get the initial MISP event, we export it in
+    STIX2 format, and use the import script on this
+    file to compare the initial MISP event with the
+    one created with the STIX2 import
+  - Since the export to STIX2 and import from STIX2
+    are lossy, we do not expect the results to be
+    perfect, but the enumeration of the differences
+    confirm what we already know as lost in the
+    full process, so we can see what is not going as
+    expected
+  - The API key could be gathered from MISP, but
+    these small testing scripts were first intended
+    to be standalone, and are only for testing
+    purposes
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [chrisr3d]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge remote-tracking branch 'MISP/2.4' into 2.4. [Christophe
+  Vandeplas]
+- Add: [stix1 framing] Added the Simple marking in the STIX namespaces.
+  [chrisr3d]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [chrisr3d]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [chrisr3d]
+- Merge pull request #5767 from MISP/fix-csv-toids. [Andras Iklody]
+
+  fix: [events:export-csv] Default to_ids to be 1
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge pull request #5672 from patriziotufarolo/2.4. [Andras Iklody]
+
+  Fixes STIX2 export failing with "ANTLR runtime and generated code versions disagree: 4.8!=4.7.1"
+- Ensure we only have the last line from the shell command when
+  exporting STIX2. [Patrizio Tufarolo]
+
+  Same as  e3b1e8c74a0b40cdb54be938bcea4d9b28a7f0b9 but for exporting STIX2
+- Merge pull request #1 from MISP/2.4. [Patrizio Tufarolo]
+
+  Align fork
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [chrisr3d]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [Alexandre
+  Dulaunoy]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [chrisr3d]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [chrisr3d]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #5727 from stricaud/debian. [Alexandre Dulaunoy]
+- Various improvements: * Do not push a string for VERSION.json but use
+  the file in the repository * If database already exist, move on.
+  [Sebastien Tricaud]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #5746 from 4ekin/pg_branch. [Andras Iklody]
+
+  Fixed bugs with PostgreSQL in bruteforce and feed models
+- Fixed bugs with PostgreSQL in bruteforce and feed models. [Bechkalo
+  Evgeny]
+
+
+v2.4.124 (2020-03-30)
+---------------------
+
+New
+~~~
+- [attributes:massEdit] Possibility to create proposals instead of edit.
+  [mokaddem]
+- Add support for RHEL in the install script. [Golbark]
+- [audit] Added user monitoring. [iglocska]
+
+  - site admins can set the monitoring flag on a user if the feature is enabled on the instance
+  - monitored users will have all requests logged along with POST bodies
+
+  - keep in mind this functionality is quite heavy and intrusive - so use it with care. The idea is that this allows us to track potentially malicious users during an investigation
+- [UI] indexTable new fields / some refactoring. [iglocska]
+- [helper:scopedCSS] Moved implementation in a helper. [mokaddem]
+- Country galaxy generator. [iglocska]
+- [dashboard] multi line chart UI added. [iglocska]
+
+Changes
+~~~~~~~
+- [server:dbSchemaDiagnostic] UI Improvement to hide tables containing
+  only non-critical entries. [mokaddem]
+- [security] Added setting to restrict the encoding of local feeds.
+  [iglocska]
+
+  - By adding local feeds, a malicious administrator could point MISP to ingest configuration files that the apache user has access to
+  - This includes some more sensitive files (database.php / config.php / .gnupg data)
+  - Whilst this is currently not leading to an exploitable vulnerability as the current implementation wouldn't trigger on the values,
+    having a setting to disable this will become much more interesting once we have a system in place for custom feed parsers
+  - The setting can only be enabled/disabled via the CLI
+
+  - As reported by Matthias Weckbecker
+- Bump PyMISP. [Raphaël Vinot]
+- [version] bump. [iglocska]
+- [publish alert] default added to user creation via the API. [iglocska]
+- Bumped queryversion. [mokaddem]
+- [attribute:edit] Added support of chosen - fix #5736. [mokaddem]
+- [widgets:mutliline] Usage of bootstrap's tooltip and fixed another
+  loading race-condition. [mokaddem]
+- [alert] emails now have instructions on how to disable them.
+  [iglocska]
+- [widgets:multiline] Added possibility to pick datapoint and see the
+  deltas. [mokaddem]
+- [warninglist] bump. [iglocska]
+- [warninglist] bump. [iglocska]
+- [genericElement:indexTable-links] Allow to craft an URL with custom
+  data_path. [mokaddem]
+- [genericElement:IndexTable] Allow to pass pagination options to
+  paginator element. [mokaddem]
+- [widgets:multilines] Improved tooltip placement strategy. [mokaddem]
+- [taxonomies] bumped. [iglocska]
+- [widgets:multiline] Improved label wrapping. [mokaddem]
+- [widgets:multiline] Integrated CSS and new config `hideAxis`
+  [mokaddem]
+- [widgets:worlmap] Resize map on widget container resize. [mokaddem]
+- [widgets:ui] Added possibility to listen to widget-resize events.
+  [mokaddem]
+- [widgets:multiline] Support of linear x-axis. [mokaddem]
+- [widgets:multiline] Pass widget_config to the view. [mokaddem]
+- [widgets:multiline] Flip tooltip position if necessary. [mokaddem]
+- [widgets:multiline] Adapt left margin for big numbers. [mokaddem]
+- [widgets:multiline] Added more Options, datapoints and total serie.
+  [mokaddem]
+- [widgets:multiline] Layout, UI and interactivity improvements - WiP.
+  [mokaddem]
+- [galaxy:view] Commented `altered galaxy` for now. [mokaddem]
+- [galaxyCluster:index] Migrated to use the genericElement factory +
+  added sparkline and icon genericIndex fields. [mokaddem]
+- [galaxyCluster:view] Migrated to use the genericElement factory.
+  [mokaddem]
+- [galaxy:index] Cleaned up artifacts from galaxy2.0. [mokaddem]
+- [galaxy:view] Migrated to use the genericElement factory. [mokaddem]
+- [galaxy:index] Migrated to use the genericElement factory. [mokaddem]
+- [views:genericElements] Multiple addition and improvements for generic
+  IndexTable, TopBar and Form. [mokaddem]
+- [feeds metadata] fix incorrect timestamp field. [Alexandre Dulaunoy]
+- [style] Added spaces in JSON used for the automation examples.
+  [iglocska]
+- [community] CogSec Collab disinformation sharing community :D. [VVX7]
+- [taxonomies] updated to the latest version. [Alexandre Dulaunoy]
+- [galaxy] bump. [iglocska]
+- [helper:ScopedCSS] Usage of PHP_EOL. [mokaddem]
+- [scopedCSS] Added more doc and allow having scoped and not scoped mix.
+  [mokaddem]
+- [scopedCSS] Simplified usage and added documentation. [mokaddem]
+- [widgets:multiline] Switched to scoped css usage. [mokaddem]
+- [widgets] Added support of scoped CSS. [mokaddem]
+- [travis] cat exec errors file. [Raphaël Vinot]
+
+Fix
+~~~
+- [sync] Added function to handle older MISP instances despite the new
+  way of passing org filter options. [iglocska]
+- [event:view] Show correct number of related events to be shown - Fix
+  #5732. [mokaddem]
+- [objecs:reviseObject] Pass forgotten template data - Fix #5733.
+  [mokaddem]
+- [event index] org filter correctly accepts array in addition to pipe
+  delimited values. [iglocska]
+
+  - fixes pull org filters
+- [emailing] Added setting for default publish alert behaviour when
+  creating new users. [iglocska]
+- [installer] Updated installer checksums. [Steve Clement]
+- [attribute:edit] Create chosen picker when modal is shown. [mokaddem]
+- [eventGraph:picture] Take correct Attribute picture's name. [mokaddem]
+- [widget:mutlieline] Take into account scrollY position. [mokaddem]
+- [widgets:multiline] Racecondition executing `init` and fetching d3.js
+  twice. [mokaddem]
+- [pull] pull filters fixed. [iglocska]
+- [widgets:multiline] Ensure that d3.js is loaded only once. [mokaddem]
+- [widgets:SimpleList] Fit minimum vertical space. [mokaddem]
+- [widgets:multiline] Correctly parse boolean text for `showAxis`
+  [mokaddem]
+- [galaxy:view] View altered galaxies/clusters buttton correctly
+  redirect. [mokaddem]
+- [php] compatibility with older versions. [iglocska]
+- [servers:pull_rules] Allows sync parameter rules to be above 40 chars.
+  [Sami Mokaddem]
+- [message] user creation shouldn't include the "User notified of new
+  credentials" part of the notification mesage if emailing is disabled.
+  [iglocska]
+- [install] Updated installer and checksums. [Steve Clement]
+- [INSTALL] Properly run tests. [Raphaël Vinot]
+- [suricata] fixed an invalid validation of https hostnames that blocked
+  the attributes from being included in the exports. [iglocska]
+- [dashboard] css conflict resolved. [iglocska]
+
+  - in a really hacky way for now
+- [side menu] Fixed Dashboard link from the side menu in the statistic
+  view. [chrisr3d]
+- [thread:view] Threads are no longer rendered for not related Event on
+  rare occasion. [mokaddem]
+- [user:login] Added support of `RFC822` for older PHP version.
+  [mokaddem]
+- [stix export] Fixed cybox object import. [chrisr3d]
+
+Other
+~~~~~
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge pull request #5643 from Kortho/patch-3. [Steve Clement]
+
+  fixed python venv creation command
+- Fixed python venv creation command. [Kortho]
+
+  The command for creating virtual environment in RHEL was wrong, fixed it :)
+- Merge pull request #5706 from RichieB2B/ncsc-nl/venv-ssdeep. [Steve
+  Clement]
+
+  Fix venv and ssdeep for RHEL 7
+- Update INSTALL.rhel7.md. [Steve Clement]
+- Install ssdeep PHP module on RHEL 7. [Richard van den Berg]
+- Fix virtualenv creation on RHEL 7. [Richard van den Berg]
+- Merge pull request #5705 from Golbark/redhat-install-script-support.
+  [Steve Clement]
+
+  new: usr: add support for RHEL in the install script
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [mokaddem]
+- Merge pull request #5721 from stricaud/debian2. [Andras Iklody]
+
+  Debian improvements
+- Add installation files: workers and VERSION.json. [Sebastien Tricaud]
+- Adding missing packages. [Sebastien Tricaud]
+- Adding compat file. [Sebastien Tricaud]
+- Bump version in changelog. [Sebastien Tricaud]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch 'feature-widget-multipleline' into 2.4. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into feature-widget-
+  multipleline. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into view-migration-galaxy.
+  [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch 'GlennHD-2.4' into 2.4. [Alexandre Dulaunoy]
+- Merge branch '2.4' of https://github.com/GlennHD/MISP into
+  GlennHD-2.4. [Alexandre Dulaunoy]
+- Fixed indentation of DigitalSide & Metasploit CVEs. [GlennHD]
+
+  Fixed indentation of DigitalSide & Metasploit CVEs to align with others.
+- Added Malware Bazaar. [GlennHD]
+
+  Added abuse.ch Malware Bazaar
+- Merge pull request #5717 from VVX7/2.4. [Andras Iklody]
+
+  chg: [community] CogSec Collab disinformation sharing community :D
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #5707 from MISP/feature-widgets-scoped-css. [Andras
+  Iklody]
+
+  Scoped css for widget
+- Merge branch '2.4' of github.com:MISP/MISP into feature-widgets-
+  scoped-css. [mokaddem]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [iglocska]
+- Merge pull request #5697 from MISP/chrisr3d_patch. [Andras Iklody]
+
+  Fix link to the dashboard from the statistics page
+- Merge remote-tracking branch 'origin/2.4' into chrisr3d_patch.
+  [chrisr3d]
+- Merge branch '2.4' of github.com:MISP/MISP into 2.4. [chrisr3d]
+
+
 v2.4.123 (2020-03-10)
 ---------------------
 
